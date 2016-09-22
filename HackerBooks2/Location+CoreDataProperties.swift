@@ -2,7 +2,7 @@
 //  Location+CoreDataProperties.swift
 //  HackerBooks2
 //
-//  Created by Alberto Marín García on 21/9/16.
+//  Created by Alberto Marín García on 22/9/16.
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 
@@ -15,9 +15,9 @@ extension Location {
         return NSFetchRequest<Location>(entityName: "Location");
     }
 
+    @NSManaged public var address: String?
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var address: String?
     @NSManaged public var annotations: NSSet?
 
 }

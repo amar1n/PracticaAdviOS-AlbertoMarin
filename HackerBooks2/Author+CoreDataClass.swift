@@ -9,7 +9,15 @@
 import Foundation
 import CoreData
 
-
 public class Author: NSManagedObject {
 
+    static let entityName = "Author"
+    
+    convenience init(fullName: String, context: NSManagedObjectContext) {
+        let entity = NSEntityDescription.entity(forEntityName: Author.entityName, in: context)!
+        
+        self.init(entity: entity, insertInto: context)
+        
+        self.fullName = fullName
+    }
 }

@@ -13,9 +13,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    let model = CoreDataStack(modelName: "Model")!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Clean up all local caches
+        do {
+            try model.dropAllData()
+        } catch {
+            print("Se tiró 3 el borrado de la BBDD!!!")
+        }
+        AsyncData.removeAllLocalFiles()
+
+        // Create the window
+        window = UIWindow.init(frame: UIScreen.main.bounds)
+        
+        // Create the model
+        do{
+            guard let url = Bundle.main.url(forResource: "books_readable", withExtension: "json") else {
+                fatalError("Unable to read json file!")
+            }
+            
+            let data = try Data(contentsOf: url)
+            let jsonDicts = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? JSONArray
+            
+            var _ = try decode(books: jsonDicts, context: model.context)
+            model.save()
+            print(model)
+        }catch {
+            fatalError("Error while loading model")
+        }
         
         // Creamos el rootVC
         let nVC = AMGViewController()
@@ -52,7 +78,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
-

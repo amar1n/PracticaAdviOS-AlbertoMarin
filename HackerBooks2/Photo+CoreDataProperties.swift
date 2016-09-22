@@ -2,7 +2,7 @@
 //  Photo+CoreDataProperties.swift
 //  HackerBooks2
 //
-//  Created by Alberto Marín García on 21/9/16.
+//  Created by Alberto Marín García on 22/9/16.
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 
@@ -17,7 +17,6 @@ extension Photo {
 
     @NSManaged public var photoData: NSData?
     @NSManaged public var annotations: NSSet?
-    @NSManaged public var book: Book?
 
 }
 
