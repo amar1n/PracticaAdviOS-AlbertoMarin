@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,8 +38,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let jsonDicts = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? JSONArray
             
             var _ = try decode(books: jsonDicts, context: model.context)
+            
+            testData()
+
             model.save()
-            print(model)
         }catch {
             fatalError("Error while loading model")
         }
@@ -57,6 +60,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func testData() {
+        let req = NSFetchRequest<Book>(entityName: Book.entityName)
+        req.fetchBatchSize = 50
+        let books = try! model.context.fetch(req)
+        
+        // Unas annotations
+        let _ = Annotation(book: books[0], text: "Hello World!!!", latitude: 41.467273, longitude: 2.091366, address: nil, context: model.context)
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

@@ -31,7 +31,7 @@ public class Photo: NSManagedObject {
     }
     
     convenience init(annotation: Annotation, image: UIImage, context: NSManagedObjectContext) {
-        let entity = NSEntityDescription.entity(forEntityName: Cover.entityName, in: context)!
+        let entity = NSEntityDescription.entity(forEntityName: Photo.entityName, in: context)!
         
         self.init(entity: entity, insertInto: context)
         
@@ -41,7 +41,7 @@ public class Photo: NSManagedObject {
 }
 
     convenience init(annotation: Annotation, context: NSManagedObjectContext) {
-        let entity = NSEntityDescription.entity(forEntityName: Cover.entityName, in: context)!
+        let entity = NSEntityDescription.entity(forEntityName: Photo.entityName, in: context)!
         
         self.init(entity: entity, insertInto: context)
 

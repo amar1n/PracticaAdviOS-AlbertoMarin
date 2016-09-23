@@ -14,7 +14,7 @@ public class Book: NSManagedObject {
 
     static let entityName = "Book"
     
-    convenience init(title: String, authors: [String], tags: Tags, coverUrl: URL, pdfUrl: URL, context: NSManagedObjectContext) {
+    convenience init(title: String, authors: Authors, tags: Tags, coverUrl: URL, pdfUrl: URL, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)!
         
         self.init(entity: entity, insertInto: context)
@@ -22,8 +22,9 @@ public class Book: NSManagedObject {
         self.favorite = false
         self.title = title
 
-        for author in authors {
-            let a = Author(fullName: author, context: context)
+        for authorFullName in authors {
+            let a = createAuthor(fullName: authorFullName, context: context)
+            
             addToAuthors(a)
         }
 
@@ -39,6 +40,18 @@ public class Book: NSManagedObject {
     }
     
     //MARK: - Utils
+    func createAuthor(fullName: String, context: NSManagedObjectContext) -> Author {
+        let req = NSFetchRequest<Author>(entityName: Author.entityName)
+        req.predicate = NSPredicate(format: "fullName == %@", fullName)
+        let authors = try! context.fetch(req)
+        
+        if authors.count > 0 {
+            return authors[0]
+        }
+        
+        return Author(fullName: fullName, context: context)
+    }
+
     func createTag(tagName: String, context: NSManagedObjectContext) -> Tag {
         let req = NSFetchRequest<Tag>(entityName: Tag.entityName)
         req.predicate = NSPredicate(format: "name == %@", tagName)
