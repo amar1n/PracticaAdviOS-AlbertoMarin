@@ -24,7 +24,7 @@
     </entity>
     <entity name="BookTag" representedClassName=".BookTag" syncable="YES">
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="bookTags" inverseEntity="Book" syncable="YES"/>
-        <relationship name="tag" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="bookTags" inverseEntity="Tag" syncable="YES"/>
+        <relationship name="tag" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="bookTag" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <entity name="Cover" representedClassName=".Cover" syncable="YES">
         <attribute name="coverData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
@@ -47,17 +47,17 @@
     <entity name="Tag" representedClassName=".Tag" syncable="YES">
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="proxySorting" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="bookTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
+        <relationship name="bookTag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
     </entity>
     <elements>
         <element name="Annotation" positionX="-45" positionY="-63" width="128" height="150"/>
         <element name="Author" positionX="-612" positionY="198" width="128" height="73"/>
         <element name="Book" positionX="-342" positionY="162" width="128" height="150"/>
-        <element name="BookTag" positionX="-263" positionY="414" width="128" height="73"/>
+        <element name="BookTag" positionX="-263" positionY="414" width="128" height="75"/>
         <element name="Cover" positionX="-558" positionY="339" width="128" height="75"/>
         <element name="Location" positionX="187" positionY="90" width="128" height="105"/>
         <element name="Pdf" positionX="72" positionY="287" width="128" height="73"/>
         <element name="Photo" positionX="-423" positionY="-27" width="128" height="75"/>
-        <element name="Tag" positionX="-540" positionY="468" width="128" height="88"/>
+        <element name="Tag" positionX="-540" positionY="468" width="128" height="90"/>
     </elements>
 </model>

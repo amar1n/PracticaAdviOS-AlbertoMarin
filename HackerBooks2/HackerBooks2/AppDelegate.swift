@@ -9,6 +9,11 @@
 import UIKit
 import CoreData
 
+// 30 Book
+// 35 Author
+// 62 Tag
+// 80 BookTag
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -22,19 +27,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Create the model
         self.model.performBackgroundBatchOperation(proccessTheJSON)
-        
         self.model.autoSave(10)
         
-        // Creamos el rootVC
-        let nVC = AMGViewController()
-        let navVC = UINavigationController(rootViewController: nVC)
-        
-        // Creamos la window
-        window = UIWindow(frame: UIScreen.main.bounds)
-        
-        // Encasquetamos el rootVC a la window y mostramos
-        window?.rootViewController = navVC
-        window?.makeKeyAndVisible()
+        do {
+            // Configuramos controladores, combinadores y sus delegados según el tipo de dispositivo
+            let rootVC: UIViewController
+            switch UIDevice.current.userInterfaceIdiom {
+            case .phone:
+                rootVC = rootViewControllerForPhone()
+            default:
+                throw LibraryErrors.deviceNotSupported
+            }
+            
+            // Asignar el rootVC
+            window?.rootViewController = rootVC
+            
+            // Hacer visible & key a la window
+            window?.makeKeyAndVisible()
+            
+            return true
+        } catch {
+            fatalError("Error while did finish launching with options")
+        }
         
         return true
     }
@@ -60,15 +74,72 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        cleanUpLocalCaches()
+    }
+    
     //MARK: - Utils
-    func cleanUp() {
-        // Clean up all local caches
+//    func rootViewControllerForPad() -> UIViewController {
+//        // Controladores
+//        let index = NSUserDefaults.standardUserDefaults().indexPathForKey(BookKey)
+//        let libraryVC = LibraryViewController(model: nil, selectedRow: index, autoSelectRow: true)
+//        let libraryNav = UINavigationController(rootViewController: libraryVC)
+//        
+//        // let initialBook = model.book(atIndex: 0)!
+//        let bookVC = BookViewController(model: nil)
+//        let bookNav = UINavigationController(rootViewController: bookVC)
+//        
+//        // Combinadores
+//        let splitVC = UISplitViewController()
+//        splitVC.viewControllers = [libraryNav, bookNav]
+//        
+//        // Delegados
+//        splitVC.delegate = bookVC
+//        libraryVC.setDelegate(bookVC)
+//        
+//        // Asignar el mismo tipo de letra en todas las barras de navegación
+//        let navigationBarAppearace = UINavigationBar.appearance()
+//        navigationBarAppearace.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Star Jedi", size: 20)!]
+//        
+//        return splitVC
+//    }
+
+    func rootViewControllerForPhone() -> UIViewController {
+        // Creamos el fetchRequest
+        let fr = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+        fr.fetchBatchSize = 24
+        fr.sortDescriptors = [NSSortDescriptor(key: "tag.proxySorting", ascending: true), NSSortDescriptor(key: "book.title", ascending: true)]
+        
+        // Creamos el fetchedResultsController
+        let fc = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: model.context, sectionNameKeyPath: "tag.proxySorting", cacheName: nil)
+
+        // Controladores
+        let libraryVC = LibraryViewController(fetchedResultsController: fc as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+        
+        // Combinadores
+        let libraryNav = UINavigationController(rootViewController: libraryVC)
+        
+        // Delegados
+        // libraryVC.setDelegate(libraryVC)
+        
+        return libraryNav
+    }
+    
+    func cleanUpLocalCaches() {
+        AsyncData.removeAllLocalFiles()
+    }
+
+    func cleanUpDataBase() {
         do {
             try model.dropAllData()
         } catch {
             print("Se tiró 3 el borrado de la BBDD!!!")
         }
-        AsyncData.removeAllLocalFiles()
+    }
+
+    func cleanUp() {
+        cleanUpLocalCaches()
+        cleanUpDataBase()
     }
     
     func proccessTheJSON(_ workerContext: NSManagedObjectContext) {

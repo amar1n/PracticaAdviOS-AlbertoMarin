@@ -32,10 +32,11 @@
 		D35F8D2E1D934B6E00F2E1BB /* AsyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35F8D2D1D934B6E00F2E1BB /* AsyncData.swift */; };
 		D38598F51D9072CE008C8947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38598F41D9072CE008C8947 /* AppDelegate.swift */; };
 		D38598FC1D9072CE008C8947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D38598FB1D9072CE008C8947 /* Assets.xcassets */; };
-		D38599081D90928D008C8947 /* AMGViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38599061D90928D008C8947 /* AMGViewController.swift */; };
-		D38599091D90928D008C8947 /* AMGViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D38599071D90928D008C8947 /* AMGViewController.xib */; };
 		D385990C1D909476008C8947 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D385990B1D909476008C8947 /* CoreDataStack.swift */; };
 		D38599101D9094E5008C8947 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D385990E1D9094E5008C8947 /* Model.xcdatamodeld */; };
+		D3F73AAB1D98217B00A02A15 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F73AAA1D98217B00A02A15 /* CoreDataTableViewController.swift */; };
+		D3F73AAE1D98238E00A02A15 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F73AAD1D98238E00A02A15 /* LibraryViewController.swift */; };
+		D3F73AB01D98313C00A02A15 /* LibraryErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F73AAF1D98313C00A02A15 /* LibraryErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,10 +67,11 @@
 		D38598F41D9072CE008C8947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D38598FB1D9072CE008C8947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D38599001D9072CE008C8947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D38599061D90928D008C8947 /* AMGViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMGViewController.swift; sourceTree = "<group>"; };
-		D38599071D90928D008C8947 /* AMGViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AMGViewController.xib; sourceTree = "<group>"; };
 		D385990B1D909476008C8947 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		D385990F1D9094E5008C8947 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		D3F73AAA1D98217B00A02A15 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
+		D3F73AAD1D98238E00A02A15 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		D3F73AAF1D98313C00A02A15 /* LibraryErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,29 +122,21 @@
 		D38598F31D9072CE008C8947 /* HackerBooks2 */ = {
 			isa = PBXGroup;
 			children = (
+				D3F73AAC1D98218300A02A15 /* Controllers */,
 				D35F8D2F1D934B7B00F2E1BB /* NetworkUtils */,
 				D35F8D2A1D93453400F2E1BB /* Resources */,
 				D385990D1D9094AF008C8947 /* Model */,
 				D38598F41D9072CE008C8947 /* AppDelegate.swift */,
 				D38598FB1D9072CE008C8947 /* Assets.xcassets */,
 				D38599001D9072CE008C8947 /* Info.plist */,
-				D385990A1D909299008C8947 /* Controllers */,
 			);
 			path = HackerBooks2;
-			sourceTree = "<group>";
-		};
-		D385990A1D909299008C8947 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				D38599061D90928D008C8947 /* AMGViewController.swift */,
-				D38599071D90928D008C8947 /* AMGViewController.xib */,
-			);
-			name = Controllers;
 			sourceTree = "<group>";
 		};
 		D385990D1D9094AF008C8947 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D3F73AAF1D98313C00A02A15 /* LibraryErrors.swift */,
 				D35F8D2B1D93457700F2E1BB /* JSONProcessing.swift */,
 				D38599311D91F6CB008C8947 /* Managed */,
 				D385990B1D909476008C8947 /* CoreDataStack.swift */,
@@ -175,6 +169,15 @@
 			);
 			name = Managed;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		D3F73AAC1D98218300A02A15 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D3F73AAA1D98217B00A02A15 /* CoreDataTableViewController.swift */,
+				D3F73AAD1D98238E00A02A15 /* LibraryViewController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,7 +240,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D38599091D90928D008C8947 /* AMGViewController.xib in Resources */,
 				D35F8D291D93452700F2E1BB /* emptyPdf.pdf in Resources */,
 				D38598FC1D9072CE008C8947 /* Assets.xcassets in Resources */,
 				D35F8D281D93452700F2E1BB /* emptyBookCover.png in Resources */,
@@ -253,16 +255,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D35F8D201D93239700F2E1BB /* Photo+CoreDataClass.swift in Sources */,
+				D3F73AB01D98313C00A02A15 /* LibraryErrors.swift in Sources */,
 				D35F8D1B1D93239700F2E1BB /* Pdf+CoreDataProperties.swift in Sources */,
 				D385990C1D909476008C8947 /* CoreDataStack.swift in Sources */,
+				D3F73AAB1D98217B00A02A15 /* CoreDataTableViewController.swift in Sources */,
 				D35F8D141D93239700F2E1BB /* Annotation+CoreDataClass.swift in Sources */,
-				D38599081D90928D008C8947 /* AMGViewController.swift in Sources */,
 				D35F8D131D93239700F2E1BB /* Location+CoreDataProperties.swift in Sources */,
 				D35F8D1A1D93239700F2E1BB /* Pdf+CoreDataClass.swift in Sources */,
 				D35F8D151D93239700F2E1BB /* Annotation+CoreDataProperties.swift in Sources */,
 				D35F8D161D93239700F2E1BB /* BookTag+CoreDataClass.swift in Sources */,
 				D38598F51D9072CE008C8947 /* AppDelegate.swift in Sources */,
 				D35F8D181D93239700F2E1BB /* Author+CoreDataClass.swift in Sources */,
+				D3F73AAE1D98238E00A02A15 /* LibraryViewController.swift in Sources */,
 				D35F8D1C1D93239700F2E1BB /* Tag+CoreDataClass.swift in Sources */,
 				D35F8D231D93239700F2E1BB /* Book+CoreDataProperties.swift in Sources */,
 				D35F8D191D93239700F2E1BB /* Author+CoreDataProperties.swift in Sources */,
