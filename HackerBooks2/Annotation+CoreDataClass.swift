@@ -9,9 +9,13 @@
 import Foundation
 import CoreData
 import UIKit
+import CoreLocation
 
 public class Annotation: NSManagedObject {
-
+//public class Annotation: NSManagedObject, CLLocationManagerDelegate {
+    
+//    var locationManager: CLLocationManager? = nil
+    
     static let entityName = "Annotation"
     
     convenience init(book: Book, text: String, latitude: Double?, longitude: Double?, address: String?, photo: UIImage, context: NSManagedObjectContext) {
@@ -19,6 +23,7 @@ public class Annotation: NSManagedObject {
         
         self.init(entity: entity, insertInto: context)
         
+        self.hasLocation = false
         self.creationDate = NSDate()
         self.modificationDate = NSDate()
         self.text = text
@@ -46,6 +51,7 @@ public class Annotation: NSManagedObject {
         
         self.init(entity: entity, insertInto: context)
         
+        self.hasLocation = false
         self.creationDate = NSDate()
         self.modificationDate = NSDate()
         self.text = text
@@ -67,4 +73,44 @@ public class Annotation: NSManagedObject {
 
         self.photo = Photo(annotation: self, context: context)
     }
+    
+//    //MARK: - CLLocationManagerDelegate
+//    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        
+//    }
 }
+
+////MARK: - Lifecycle
+//extension Annotation {
+//    // Se llama una sola vez
+//    public override func awakeFromInsert() {
+//        super.awakeFromInsert()
+//        
+//        if CLLocationManager.locationServicesEnabled() {
+//            switch(CLLocationManager.authorizationStatus()) {
+//            case .notDetermined, .restricted, .denied:
+//                print("No access")
+//            case .authorizedAlways, .authorizedWhenInUse:
+//                
+//                self.locationManager = CLLocationManager()
+//                self.locationManager?.delegate = self
+//                self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+//                self.locationManager?.startUpdatingLocation()
+//                
+//                print("Access")
+//            }
+//        } else {
+//            print("Location services are not enabled")
+//        }
+//        
+//    }
+//    
+//    // Se llama un monton de veces
+//    public override func awakeFromFetch() {
+//        super.awakeFromFetch()
+//    }
+//    
+//    public override func willTurnIntoFault() {
+//        super.willTurnIntoFault()
+//    }
+//}

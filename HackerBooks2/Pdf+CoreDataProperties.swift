@@ -2,7 +2,7 @@
 //  Pdf+CoreDataProperties.swift
 //  HackerBooks2
 //
-//  Created by Alberto Marín García on 22/9/16.
+//  Created by Alberto Marín García on 24/9/16.
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 

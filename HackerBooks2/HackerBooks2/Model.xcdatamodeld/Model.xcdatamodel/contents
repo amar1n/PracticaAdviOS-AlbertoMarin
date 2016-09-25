@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="15G1004" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Annotation" representedClassName=".Annotation" syncable="YES">
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="hasLocation" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="modificationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="annotations" inverseEntity="Book" syncable="YES"/>
@@ -49,11 +50,11 @@
         <relationship name="bookTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Annotation" positionX="-45" positionY="-63" width="128" height="135"/>
+        <element name="Annotation" positionX="-45" positionY="-63" width="128" height="150"/>
         <element name="Author" positionX="-612" positionY="198" width="128" height="73"/>
         <element name="Book" positionX="-342" positionY="162" width="128" height="150"/>
         <element name="BookTag" positionX="-263" positionY="414" width="128" height="73"/>
-        <element name="Cover" positionX="-405" positionY="90" width="128" height="75"/>
+        <element name="Cover" positionX="-558" positionY="339" width="128" height="75"/>
         <element name="Location" positionX="187" positionY="90" width="128" height="105"/>
         <element name="Pdf" positionX="72" positionY="287" width="128" height="73"/>
         <element name="Photo" positionX="-423" positionY="-27" width="128" height="75"/>
