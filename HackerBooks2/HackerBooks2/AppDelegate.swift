@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow.init(frame: UIScreen.main.bounds)
         
         // Create the model
-        self.model.performBackgroundBatchOperation(proccessTheJSON)
+        self.model.performBackgroundBatchOperation(startUp)
         self.model.autoSave(10)
         
         do {
@@ -125,6 +125,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return libraryNav
     }
     
+    func startUp(_ workerContext: NSManagedObjectContext) {
+        if (!UserDefaults.standard.bool(forKey: "TheJSONHasBeenProcessed")) {
+            print("........processing the JSON!!!")
+            proccessTheJSON(workerContext)
+        } else {
+            print("........reading from SQLite!!!")
+        }
+    }
+
     func cleanUpLocalCaches() {
         AsyncData.removeAllLocalFiles()
     }
@@ -171,6 +180,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                               context: workerContext)
             
             try workerContext.save()
+            
+            UserDefaults.standard.set(true, forKey: "TheJSONHasBeenProcessed")
         }catch {
             fatalError("Error while loading model")
         }
