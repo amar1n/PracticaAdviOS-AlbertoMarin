@@ -28,6 +28,7 @@
     </entity>
     <entity name="Cover" representedClassName=".Cover" syncable="YES">
         <attribute name="coverData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="coverURL" attributeType="String" syncable="YES"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="cover" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName=".Location" syncable="YES">
@@ -54,7 +55,7 @@
         <element name="Author" positionX="-612" positionY="198" width="128" height="73"/>
         <element name="Book" positionX="-342" positionY="162" width="128" height="150"/>
         <element name="BookTag" positionX="-263" positionY="414" width="128" height="75"/>
-        <element name="Cover" positionX="-558" positionY="339" width="128" height="75"/>
+        <element name="Cover" positionX="-558" positionY="339" width="128" height="90"/>
         <element name="Location" positionX="187" positionY="90" width="128" height="105"/>
         <element name="Pdf" positionX="72" positionY="287" width="128" height="73"/>
         <element name="Photo" positionX="-423" positionY="-27" width="128" height="75"/>

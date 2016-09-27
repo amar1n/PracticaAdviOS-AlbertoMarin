@@ -14,6 +14,8 @@ import CoreData
 // 62 Tag
 // 80 BookTag
 
+let jsonFlag = "TheJSONHasBeenProcessed"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -79,31 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK: - Utils
-//    func rootViewControllerForPad() -> UIViewController {
-//        // Controladores
-//        let index = NSUserDefaults.standardUserDefaults().indexPathForKey(BookKey)
-//        let libraryVC = LibraryViewController(model: nil, selectedRow: index, autoSelectRow: true)
-//        let libraryNav = UINavigationController(rootViewController: libraryVC)
-//        
-//        // let initialBook = model.book(atIndex: 0)!
-//        let bookVC = BookViewController(model: nil)
-//        let bookNav = UINavigationController(rootViewController: bookVC)
-//        
-//        // Combinadores
-//        let splitVC = UISplitViewController()
-//        splitVC.viewControllers = [libraryNav, bookNav]
-//        
-//        // Delegados
-//        splitVC.delegate = bookVC
-//        libraryVC.setDelegate(bookVC)
-//        
-//        // Asignar el mismo tipo de letra en todas las barras de navegación
-//        let navigationBarAppearace = UINavigationBar.appearance()
-//        navigationBarAppearace.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Star Jedi", size: 20)!]
-//        
-//        return splitVC
-//    }
-
     func rootViewControllerForPhone() -> UIViewController {
         // Creamos el fetchRequest
         let fr = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
@@ -126,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func startUp(_ workerContext: NSManagedObjectContext) {
-        if (!UserDefaults.standard.bool(forKey: "TheJSONHasBeenProcessed")) {
+        if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
             print("........processing the JSON!!!")
             proccessTheJSON(workerContext)
         } else {
@@ -165,23 +142,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             var _ = try decode(books: jsonDicts, context: workerContext)
             
+//            // Unas annotations
 //            let req = NSFetchRequest<Book>(entityName: Book.entityName)
 //            req.fetchBatchSize = 50
 //            let books = try! workerContext.fetch(req)
-//            
-//            // Unas annotations
-//            let defaultImage = UIImage(imageLiteralResourceName: "emptyBookCover.png")
-//            let _ = Annotation(book: books[0],
-//                               text: "Hello World!!!",
-//                               latitude: 41.467273,
-//                               longitude: 2.091366,
-//                               address: nil,
-//                               photo: defaultImage,
-//                               context: workerContext)
+//            let anno = Annotation(book: books[0],
+//                       text: "",
+//                       latitude: 41.467273,
+//                       longitude: 2.091366,
+//                       address: nil,
+//                       context: workerContext)
+//            anno.photo?.image = UIImage(imageLiteralResourceName: "emptyBookCover.png")
             
             try workerContext.save()
             
-            UserDefaults.standard.set(true, forKey: "TheJSONHasBeenProcessed")
+            UserDefaults.standard.set(true, forKey: jsonFlag)
         }catch {
             fatalError("Error while loading model")
         }

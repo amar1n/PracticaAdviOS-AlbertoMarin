@@ -10,6 +10,10 @@ import Foundation
 import CoreData
 import UIKit
 
+let BookDidChange = Notification.Name(rawValue: "amarin.BookDidChange")
+let BookCoverImageDidDownload = Notification.Name(rawValue: "amarin.BookCoverImageDidDownload")
+let BookPDFDidDownload = Notification.Name(rawValue: "amarin.BookPDFDidDownload")
+
 public class Book: NSManagedObject {
 
     static let entityName = "Book"

@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  HackerBooks2
 //
-//  Created by Alberto Marín García on 25/9/16.
+//  Created by Alberto Marín García on 27/9/16.
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 
@@ -19,9 +19,9 @@ extension Book {
     @NSManaged public var title: String?
     @NSManaged public var annotations: NSSet?
     @NSManaged public var authors: NSSet?
+    @NSManaged public var bookTags: NSSet?
     @NSManaged public var cover: Cover?
     @NSManaged public var pdf: Pdf?
-    @NSManaged public var bookTags: NSSet?
 
 }
 
