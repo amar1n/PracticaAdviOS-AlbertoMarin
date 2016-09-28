@@ -103,12 +103,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func startUp(_ workerContext: NSManagedObjectContext) {
-        if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
-            print("........processing the JSON!!!")
-            proccessTheJSON(workerContext)
-        } else {
-            print("........reading from SQLite!!!")
-        }
+        proccessTheJSON(workerContext)
+//        if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
+//            print("........processing the JSON!!!")
+//            proccessTheJSON(workerContext)
+//        } else {
+//            print("........reading from SQLite!!!")
+//        }
     }
 
     func cleanUpUserDefaults() {

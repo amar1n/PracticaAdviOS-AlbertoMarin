@@ -9,9 +9,10 @@
 import UIKit
 
 class BookViewController: UIViewController {
-
+    
     var model : Book
-
+    
+    //MARK: - Inits
     init(model: Book) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -21,7 +22,7 @@ class BookViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     //MARK: - Outlets
     @IBOutlet weak var coverView: UIImageView!
     @IBOutlet weak var favoriteItem: UIBarButtonItem!
@@ -31,8 +32,9 @@ class BookViewController: UIViewController {
         let pVC = PdfViewController(model: model)
         navigationController?.pushViewController(pVC, animated: true)
     }
-
+    
     @IBAction func switchFavorite(_ sender: AnyObject) {
+        model.favorite = !model.favorite
     }
     
     //MARK: - LifeCycle
@@ -55,18 +57,24 @@ class BookViewController: UIViewController {
         bookObserver = _nc.addObserver(forName: BookCoverImageDidDownload, object: book.cover, queue: nil) { (n: Notification) in
             self.syncViewWithModel()
         }
-    }
+
+        bookObserver = _nc.addObserver(forName: BookDidChange, object: book, queue: nil) { (n: Notification) in
+            self.syncViewWithModel()
+        }
+}
     
     func stopObserving(book: Book) {
         _nc.removeObserver(bookObserver)
     }
-
+    
     //MARK: - Syncing
     func syncViewWithModel() {
         coverView.image = model.cover?.image
-    }
-    
-    func syncModelWithView() {
-        model.cover?.image = coverView.image!
+        title = model.title
+        if model.favorite {
+            favoriteItem.title = "★"
+        } else {
+            favoriteItem.title = "☆"
+        }
     }
 }

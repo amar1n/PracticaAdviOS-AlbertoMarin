@@ -18,6 +18,7 @@ public class Book: NSManagedObject {
 
     static let entityName = "Book"
     
+    //MARK: - Inits
     convenience init(title: String, authors: Authors, tags: Tags, coverUrl: URL, pdfUrl: URL, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)!
         
@@ -43,7 +44,6 @@ public class Book: NSManagedObject {
         self.pdf = Pdf(pdfUrl: pdfUrl, context: context)
     }
     
-    //MARK: - Utils
     func createAuthor(fullName: String, context: NSManagedObjectContext) -> Author {
         let req = NSFetchRequest<Author>(entityName: Author.entityName)
         req.predicate = NSPredicate(format: "fullName == %@", fullName)
@@ -67,4 +67,65 @@ public class Book: NSManagedObject {
         
         return Tag(name: tagName, context: context)
     }
+
+    //MARK:- Notifications
+    func sendNotification(name: Notification.Name) {
+        let n = Notification(name: name, object: self, userInfo: nil)
+        let nc = NotificationCenter.default
+        nc.post(n)
+    }
 }
+
+//MARK: - KVO
+extension Book {
+    static func observableKeys() -> [String] {
+        return ["favorite"]
+    }
+    
+    func setupKVO() {
+        // Alta en las notificaciones para algunas propiedades
+        for key in Book.observableKeys() {
+            self.addObserver(self, forKeyPath: key, options: [], context: nil)
+        }
+    }
+    
+    func teardownKVO() {
+        // Baja en todas las notificaciones
+        for key in Book.observableKeys () {
+            self.removeObserver(self, forKeyPath: key)
+        }
+    }
+    
+    public override func observeValue(forKeyPath keyPath: String?,
+                                      of object: Any?,
+                                      change: [NSKeyValueChangeKey : Any]?,
+                                      context: UnsafeMutableRawPointer?) {
+        guard let key = keyPath else {
+            return
+        }
+        
+        if key == "favorite" {
+            let notificationName : Notification.Name = BookDidChange
+            sendNotification(name: notificationName)
+        }
+    }
+}
+
+//MARK: - Lifecycle
+extension Book {
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        setupKVO()
+    }
+    
+    public override func awakeFromFetch() {
+        super.awakeFromFetch()
+        setupKVO()
+    }
+    
+    public override func willTurnIntoFault() {
+        super.willTurnIntoFault()
+        teardownKVO()
+    }
+}
+
