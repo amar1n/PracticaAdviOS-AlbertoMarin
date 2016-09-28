@@ -46,7 +46,7 @@ class AsyncData {
     
     private
     func loadLocalData() -> Bool {
-        print("...........loadLocalData")
+        print("...........AsyncData.loadLocalData")
         let fm = FileManager.default
         let local = localURL(forRemoteURL: url)
         if fm.fileExists(atPath: local.path) {
@@ -63,18 +63,18 @@ class AsyncData {
     
     private
     func loadAndSaveRemoteData() {
-        print("...........loadAndSaveRemoteData")
+        print("...........AsyncData.loadAndSaveRemoteData")
 
         if delegate?.asyncData(self, shouldStartLoadingFrom: url) == true {
-            print("...........1")
+            print("...........AsyncData.1")
             DispatchQueue.global(qos: .default).async {
-                print("...........2")
+                print("...........AsyncData.2")
                 self.delegate?.asyncData(self, willStartLoadingFrom: self.url)
                 
                 let tmpData = try! Data(contentsOf: self.url)
                 
                 DispatchQueue.main.async {
-                    print("...........3")
+                    print("...........AsyncData.3")
                     self._hasExternalData = true
                     self._data = tmpData
                     
@@ -85,7 +85,7 @@ class AsyncData {
                 }
             }
         } else {
-            print("...........4")
+            print("...........AsyncData.4")
         }
     }
     

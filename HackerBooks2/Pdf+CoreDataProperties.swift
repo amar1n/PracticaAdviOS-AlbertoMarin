@@ -2,7 +2,7 @@
 //  Pdf+CoreDataProperties.swift
 //  HackerBooks2
 //
-//  Created by Alberto Marín García on 27/9/16.
+//  Created by Alberto Marín García on 28/9/16.
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 
@@ -16,6 +16,7 @@ extension Pdf {
     }
 
     @NSManaged public var pdfData: NSData?
+    @NSManaged public var pdfURL: String?
     @NSManaged public var book: Book?
 
 }

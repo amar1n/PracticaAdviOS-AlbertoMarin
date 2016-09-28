@@ -36,6 +36,8 @@
 		D38599101D9094E5008C8947 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D385990E1D9094E5008C8947 /* Model.xcdatamodeld */; };
 		D39B02331D99BB2C00722266 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39B02311D99BB2C00722266 /* BookViewController.swift */; };
 		D39B02341D99BB2C00722266 /* BookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D39B02321D99BB2C00722266 /* BookViewController.xib */; };
+		D3DFBD251D9B289E002BB7EC /* PdfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DFBD231D9B289E002BB7EC /* PdfViewController.swift */; };
+		D3DFBD261D9B289E002BB7EC /* PdfViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3DFBD241D9B289E002BB7EC /* PdfViewController.xib */; };
 		D3F73AAB1D98217B00A02A15 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F73AAA1D98217B00A02A15 /* CoreDataTableViewController.swift */; };
 		D3F73AAE1D98238E00A02A15 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F73AAD1D98238E00A02A15 /* LibraryViewController.swift */; };
 		D3F73AB01D98313C00A02A15 /* LibraryErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F73AAF1D98313C00A02A15 /* LibraryErrors.swift */; };
@@ -73,6 +75,8 @@
 		D385990F1D9094E5008C8947 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D39B02311D99BB2C00722266 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		D39B02321D99BB2C00722266 /* BookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewController.xib; sourceTree = "<group>"; };
+		D3DFBD231D9B289E002BB7EC /* PdfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PdfViewController.swift; sourceTree = "<group>"; };
+		D3DFBD241D9B289E002BB7EC /* PdfViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PdfViewController.xib; sourceTree = "<group>"; };
 		D3F73AAA1D98217B00A02A15 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		D3F73AAD1D98238E00A02A15 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		D3F73AAF1D98313C00A02A15 /* LibraryErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryErrors.swift; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 				D3F73AAD1D98238E00A02A15 /* LibraryViewController.swift */,
 				D39B02311D99BB2C00722266 /* BookViewController.swift */,
 				D39B02321D99BB2C00722266 /* BookViewController.xib */,
+				D3DFBD231D9B289E002BB7EC /* PdfViewController.swift */,
+				D3DFBD241D9B289E002BB7EC /* PdfViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -249,6 +255,7 @@
 				D35F8D291D93452700F2E1BB /* emptyPdf.pdf in Resources */,
 				D38598FC1D9072CE008C8947 /* Assets.xcassets in Resources */,
 				D39B02341D99BB2C00722266 /* BookViewController.xib in Resources */,
+				D3DFBD261D9B289E002BB7EC /* PdfViewController.xib in Resources */,
 				D35F8D281D93452700F2E1BB /* emptyBookCover.png in Resources */,
 				D35F8D271D93452700F2E1BB /* books_readable.json in Resources */,
 			);
@@ -268,6 +275,7 @@
 				D3F73AAB1D98217B00A02A15 /* CoreDataTableViewController.swift in Sources */,
 				D35F8D141D93239700F2E1BB /* Annotation+CoreDataClass.swift in Sources */,
 				D39B02331D99BB2C00722266 /* BookViewController.swift in Sources */,
+				D3DFBD251D9B289E002BB7EC /* PdfViewController.swift in Sources */,
 				D35F8D131D93239700F2E1BB /* Location+CoreDataProperties.swift in Sources */,
 				D35F8D1A1D93239700F2E1BB /* Pdf+CoreDataClass.swift in Sources */,
 				D35F8D151D93239700F2E1BB /* Annotation+CoreDataProperties.swift in Sources */,

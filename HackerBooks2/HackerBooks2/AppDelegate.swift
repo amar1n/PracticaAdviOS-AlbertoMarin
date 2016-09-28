@@ -111,6 +111,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    func cleanUpUserDefaults() {
+        UserDefaults.standard.removeObject(forKey: jsonFlag)
+    }
+
     func cleanUpLocalCaches() {
         AsyncData.removeAllLocalFiles()
     }
@@ -124,6 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func cleanUp() {
+        cleanUpUserDefaults()
         cleanUpLocalCaches()
         cleanUpDataBase()
     }

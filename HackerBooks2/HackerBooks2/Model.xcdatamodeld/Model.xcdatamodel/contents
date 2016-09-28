@@ -39,6 +39,7 @@
     </entity>
     <entity name="Pdf" representedClassName=".Pdf" syncable="YES">
         <attribute name="pdfData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="pdfURL" attributeType="String" syncable="YES"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="pdf" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName=".Photo" syncable="YES">
@@ -57,7 +58,7 @@
         <element name="BookTag" positionX="-263" positionY="414" width="128" height="75"/>
         <element name="Cover" positionX="-558" positionY="339" width="128" height="90"/>
         <element name="Location" positionX="187" positionY="90" width="128" height="105"/>
-        <element name="Pdf" positionX="72" positionY="287" width="128" height="73"/>
+        <element name="Pdf" positionX="72" positionY="287" width="128" height="90"/>
         <element name="Photo" positionX="-423" positionY="-27" width="128" height="75"/>
         <element name="Tag" positionX="-540" positionY="468" width="128" height="90"/>
     </elements>

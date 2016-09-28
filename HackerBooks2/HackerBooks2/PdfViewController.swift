@@ -1,14 +1,14 @@
 //
-//  BookViewController.swift
+//  PdfViewController.swift
 //  HackerBooks2
 //
-//  Created by Alberto Marín García on 26/9/16.
+//  Created by Alberto Marín García on 28/9/16.
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 
 import UIKit
 
-class BookViewController: UIViewController {
+class PdfViewController: UIViewController {
 
     var model : Book
 
@@ -23,17 +23,7 @@ class BookViewController: UIViewController {
     }
 
     //MARK: - Outlets
-    @IBOutlet weak var coverView: UIImageView!
-    @IBOutlet weak var favoriteItem: UIBarButtonItem!
-    
-    //MARK: - Actions
-    @IBAction func readBook(_ sender: AnyObject) {
-        let pVC = PdfViewController(model: model)
-        navigationController?.pushViewController(pVC, animated: true)
-    }
-
-    @IBAction func switchFavorite(_ sender: AnyObject) {
-    }
+    @IBOutlet weak var browserView: UIWebView!
     
     //MARK: - LifeCycle
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +42,7 @@ class BookViewController: UIViewController {
     var bookObserver : NSObjectProtocol?
     
     func startObserving(book: Book) {
-        bookObserver = _nc.addObserver(forName: BookCoverImageDidDownload, object: book.cover, queue: nil) { (n: Notification) in
+        bookObserver = _nc.addObserver(forName: BookPDFDidDownload, object: book.pdf, queue: nil) { (n: Notification) in
             self.syncViewWithModel()
         }
     }
@@ -60,13 +50,9 @@ class BookViewController: UIViewController {
     func stopObserving(book: Book) {
         _nc.removeObserver(bookObserver)
     }
-
+    
     //MARK: - Syncing
     func syncViewWithModel() {
-        coverView.image = model.cover?.image
-    }
-    
-    func syncModelWithView() {
-        model.cover?.image = coverView.image!
+        browserView.load(model.pdf?.content as! Data, mimeType: "application/pdf", textEncodingName: "", baseURL: NSURL() as URL)
     }
 }
