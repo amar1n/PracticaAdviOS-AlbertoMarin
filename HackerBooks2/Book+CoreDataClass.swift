@@ -13,9 +13,10 @@ import UIKit
 let BookDidChange = Notification.Name(rawValue: "amarin.BookDidChange")
 let BookCoverImageDidDownload = Notification.Name(rawValue: "amarin.BookCoverImageDidDownload")
 let BookPDFDidDownload = Notification.Name(rawValue: "amarin.BookPDFDidDownload")
+let FavoriteTagName = "Favoritos"
 
 public class Book: NSManagedObject {
-
+    
     static let entityName = "Book"
     
     //MARK: - Inits
@@ -26,20 +27,20 @@ public class Book: NSManagedObject {
         
         self.favorite = false
         self.title = title
-
+        
         for authorFullName in authors {
             let a = createAuthor(fullName: authorFullName, context: context)
             
             addToAuthors(a)
         }
-
+        
         for tagName in tags {
             let tag = createTag(tagName: tagName, context: context)
-
+            
             let bt = BookTag(book: self, tag: tag, context: context)
             addToBookTags(bt)
         }
-
+        
         self.cover = Cover(coverUrl: coverUrl, context: context)
         self.pdf = Pdf(pdfUrl: pdfUrl, context: context)
     }
@@ -55,19 +56,41 @@ public class Book: NSManagedObject {
         
         return Author(fullName: fullName, context: context)
     }
+    
+    func findBookTag(book: Book, tag: Tag, context: NSManagedObjectContext) -> BookTag? {
+        let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+        let p1 = NSPredicate(format: "book == %@", book)
+        let p2 = NSPredicate(format: "tag == %@", tag)
+        req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [p1, p2])
+        let bookTags = try! context.fetch(req)
+        
+        if bookTags.count > 0 {
+            return bookTags[0]
+        } else {
+            return nil
+        }
+    }
 
-    func createTag(tagName: String, context: NSManagedObjectContext) -> Tag {
+    func findTag(tagName: String, context: NSManagedObjectContext) -> Tag? {
         let req = NSFetchRequest<Tag>(entityName: Tag.entityName)
         req.predicate = NSPredicate(format: "name == %@", tagName)
         let tags = try! context.fetch(req)
         
         if tags.count > 0 {
             return tags[0]
+        } else {
+            return nil
         }
-        
-        return Tag(name: tagName, context: context)
     }
 
+    func createTag(tagName: String, context: NSManagedObjectContext) -> Tag {
+        let t = findTag(tagName: tagName, context: context)
+        guard t != nil else {
+            return Tag(name: tagName, context: context)
+        }
+        return t!
+    }
+    
     //MARK:- Notifications
     func sendNotification(name: Notification.Name) {
         let n = Notification(name: name, object: self, userInfo: nil)
@@ -85,7 +108,7 @@ extension Book {
     func setupKVO() {
         // Alta en las notificaciones para algunas propiedades
         for key in Book.observableKeys() {
-            self.addObserver(self, forKeyPath: key, options: [], context: nil)
+            self.addObserver(self, forKeyPath: key, options: [.new, .old], context: nil)
         }
     }
     
@@ -100,14 +123,34 @@ extension Book {
                                       of object: Any?,
                                       change: [NSKeyValueChangeKey : Any]?,
                                       context: UnsafeMutableRawPointer?) {
-        guard let key = keyPath else {
+        guard let obj = object else {
             return
         }
-        
-        if key == "favorite" {
-            let notificationName : Notification.Name = BookDidChange
-            sendNotification(name: notificationName)
+        guard obj as AnyObject === self
+            && keyPath == "favorite"
+            && change?[NSKeyValueChangeKey.kindKey] as? UInt == NSKeyValueChange.setting.rawValue else {
+                return
         }
+        
+        let newX = change![NSKeyValueChangeKey.newKey]! as? NSNumber
+        if let new = newX {
+            if (Bool(new)) {
+                let tag = createTag(tagName: FavoriteTagName, context: managedObjectContext!)
+                let bt = BookTag(book: self, tag: tag, context: managedObjectContext!)
+                addToBookTags(bt)
+            } else {
+                let tag = findTag(tagName: FavoriteTagName, context: managedObjectContext!)
+                if (tag != nil) {
+                    let bt = findBookTag(book: self, tag: tag!, context: managedObjectContext!)
+                    if (bt != nil) {
+                        removeFromBookTags(bt!)
+                    }
+                }
+            }
+        }
+        
+        let notificationName : Notification.Name = BookDidChange
+        sendNotification(name: notificationName)
     }
 }
 
