@@ -37,7 +37,7 @@ public class Book: NSManagedObject {
         for tagName in tags {
             let tag = createTag(tagName: tagName, context: context)
             
-            let bt = BookTag(book: self, tag: tag, context: context)
+            let bt = createBookTag(book: self, tag: tag, context: context)
             addToBookTags(bt)
         }
         
@@ -71,6 +71,14 @@ public class Book: NSManagedObject {
         }
     }
 
+    func createBookTag(book: Book, tag: Tag, context: NSManagedObjectContext) -> BookTag {
+        let bt = findBookTag(book: book, tag: tag, context: context)
+        guard bt != nil else {
+            return BookTag(book: book, tag: tag, context: context)
+        }
+        return bt!
+    }
+
     func findTag(tagName: String, context: NSManagedObjectContext) -> Tag? {
         let req = NSFetchRequest<Tag>(entityName: Tag.entityName)
         req.predicate = NSPredicate(format: "name == %@", tagName)
@@ -90,7 +98,7 @@ public class Book: NSManagedObject {
         }
         return t!
     }
-    
+
     //MARK:- Notifications
     func sendNotification(name: Notification.Name) {
         let n = Notification(name: name, object: self, userInfo: nil)
@@ -136,7 +144,7 @@ extension Book {
         if let new = newX {
             if (Bool(new)) {
                 let tag = createTag(tagName: FavoriteTagName, context: managedObjectContext!)
-                let bt = BookTag(book: self, tag: tag, context: managedObjectContext!)
+                let bt = createBookTag(book: self, tag: tag, context: managedObjectContext!)
                 addToBookTags(bt)
             } else {
                 let tag = findTag(tagName: FavoriteTagName, context: managedObjectContext!)

@@ -96,20 +96,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Combinadores
         let libraryNav = UINavigationController(rootViewController: libraryVC)
         
-        // Delegados
-        // libraryVC.setDelegate(libraryVC)
+        
+        let uri = UserDefaults.standard.url(forKey: lastBookTagViewed)
+        print("..........uri 2: \(uri)")
+        if let u = uri {
+            let objectId: NSManagedObjectID? = model.context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: u)
+            if (objectId != nil) {
+                let obj: NSManagedObject = model.context.object(with: objectId!)
+                print("..........uri 3: \(objectId)")
+                
+                if obj.isFault {
+                    print("....Tenemos ganador!!!")
+                } else {
+                    let bt = findBookTag(objId: objectId!, context: model.context)
+                    if (bt != nil) {
+                        print("....Tenemos ganador!!!")
+                    } else {
+                        print("....NO tenemos ganador!!!")
+                    }
+                }
+            }
+        }
         
         return libraryNav
     }
     
+    func findBookTag(objId: NSManagedObjectID, context: NSManagedObjectContext) -> BookTag? {
+        let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+        req.predicate = NSPredicate(format: "SELF == %@", objId)
+        let bookTags = try! context.fetch(req)
+        
+        if bookTags.count > 0 {
+            return bookTags[0]
+        } else {
+            return nil
+        }
+    }
+
     func startUp(_ workerContext: NSManagedObjectContext) {
-        proccessTheJSON(workerContext)
-//        if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
-//            print("........processing the JSON!!!")
-//            proccessTheJSON(workerContext)
-//        } else {
-//            print("........reading from SQLite!!!")
-//        }
+//        proccessTheJSON(workerContext)
+        if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
+            print("........processing the JSON!!!")
+            proccessTheJSON(workerContext)
+        } else {
+            print("........reading from SQLite!!!")
+        }
     }
 
     func cleanUpUserDefaults() {

@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+let lastBookTagViewed = "LastBookTagViewed"
+
 class LibraryViewController: CoreDataTableViewController {
 
 }
@@ -44,11 +46,15 @@ extension LibraryViewController {
         // Averiguar el libro
         let bt = fetchedResultsController?.object(at: indexPath) as! BookTag
 
+        // Recordar el libro
+        let uri = bt.objectID.uriRepresentation()
+        UserDefaults.standard.set(uri, forKey: lastBookTagViewed)
+        print("..........uri 1: \(uri)")
+
         // Crear el VC
         let vc = BookViewController(model: bt.book!)
         
         // Mostrarlo
         navigationController?.pushViewController(vc, animated: true)
-    
     }
 }
