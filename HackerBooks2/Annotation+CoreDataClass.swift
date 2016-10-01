@@ -18,12 +18,18 @@ public class Annotation: NSManagedObject {
     
     static let entityName = "Annotation"
     
+    //MARK: - Computed properties
+    var hasLocation: Bool {
+        get {
+            return self.location != nil
+        }
+    }
+
     convenience init(book: Book, text: String, latitude: Double?, longitude: Double?, address: String?, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Annotation.entityName, in: context)!
         
         self.init(entity: entity, insertInto: context)
         
-        self.hasLocation = false
         self.creationDate = NSDate()
         self.modificationDate = NSDate()
         self.text = text

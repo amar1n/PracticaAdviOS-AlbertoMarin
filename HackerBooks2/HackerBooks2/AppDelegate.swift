@@ -9,11 +9,6 @@
 import UIKit
 import CoreData
 
-// 30 Book
-// 35 Author
-// 62 Tag
-// 80 BookTag
-
 let jsonFlag = "TheJSONHasBeenProcessed"
 
 @UIApplicationMain
@@ -23,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let model = CoreDataStack(modelName: "Model")!
     
+    //MARK: - Life cycle
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Create the window
         window = UIWindow.init(frame: UIScreen.main.bounds)
@@ -46,6 +42,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Hacer visible & key a la window
             window?.makeKeyAndVisible()
+            
+            // Testeando...
+            pickUpTheLastBookTagViewed()
             
             return true
         } catch {
@@ -86,39 +85,91 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fr = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
         fr.fetchBatchSize = 24
         fr.sortDescriptors = [NSSortDescriptor(key: "tag.proxySorting", ascending: true), NSSortDescriptor(key: "book.title", ascending: true)]
+        // fr.predicate = NSPredicate(format: "book.title contains[c] %@", "PEPE")
         
         // Creamos el fetchedResultsController
         let fc = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: model.context, sectionNameKeyPath: "tag.proxySorting", cacheName: nil)
-
+        
         // Controladores
         let libraryVC = LibraryViewController(fetchedResultsController: fc as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
         
         // Combinadores
         let libraryNav = UINavigationController(rootViewController: libraryVC)
         
+        return libraryNav
+    }
+    
+    func startUp(_ workerContext: NSManagedObjectContext) {
+        //        proccessTheJSON(workerContext)
+        if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
+            print("........processing the JSON!!!")
+            proccessTheJSON(workerContext)
+        } else {
+            print("........reading from SQLite!!!")
+        }
+    }
+    
+    func proccessTheJSON(_ workerContext: NSManagedObjectContext) {
+        // Limpiar toda la data de prueba
+        cleanUp()
         
+        do{
+            guard let url = Bundle.main.url(forResource: "amg_books_readable", withExtension: "json") else {
+                fatalError("Unable to read json file!")
+            }
+            
+            let data = try Data(contentsOf: url)
+            let jsonDicts = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? JSONArray
+            
+            var _ = try decode(books: jsonDicts, context: workerContext)
+            
+            // Unas annotations
+            let req = NSFetchRequest<Book>(entityName: Book.entityName)
+            req.fetchBatchSize = 50
+            let books = try! workerContext.fetch(req)
+            let anno = Annotation(book: books[0],
+                                  text: "",
+                                  latitude: 41.467273,
+                                  longitude: 2.091366,
+                                  address: nil,
+                                  context: workerContext)
+            anno.photo?.image = UIImage(imageLiteralResourceName: "emptyBookCover.png")
+            
+            try workerContext.save()
+            
+            UserDefaults.standard.set(true, forKey: jsonFlag)
+        }catch {
+            fatalError("Error while loading model")
+        }
+    }
+    
+    //MARK: - Testing...
+    func pickUpTheLastBookTagViewed() -> BookTag? {
         let uri = UserDefaults.standard.url(forKey: lastBookTagViewed)
-        print("..........uri 2: \(uri)")
         if let u = uri {
             let objectId: NSManagedObjectID? = model.context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: u)
             if (objectId != nil) {
                 let obj: NSManagedObject = model.context.object(with: objectId!)
-                print("..........uri 3: \(objectId)")
                 
                 if obj.isFault {
                     print("....Tenemos ganador!!!")
+                    return (obj as! BookTag)
                 } else {
                     let bt = findBookTag(objId: objectId!, context: model.context)
                     if (bt != nil) {
                         print("....Tenemos ganador!!!")
+                        return bt
                     } else {
                         print("....NO tenemos ganador!!!")
                     }
                 }
+            } else {
+                print("....NO tenemos ganador!!!")
             }
+        } else {
+            print("....NO tenemos ganador!!!")
         }
-        
-        return libraryNav
+        return nil
     }
     
     func findBookTag(objId: NSManagedObjectID, context: NSManagedObjectContext) -> BookTag? {
@@ -132,25 +183,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return nil
         }
     }
-
-    func startUp(_ workerContext: NSManagedObjectContext) {
-//        proccessTheJSON(workerContext)
-        if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
-            print("........processing the JSON!!!")
-            proccessTheJSON(workerContext)
-        } else {
-            print("........reading from SQLite!!!")
-        }
-    }
-
+    
+    
+    //MARK: - Cleaning
     func cleanUpUserDefaults() {
         UserDefaults.standard.removeObject(forKey: jsonFlag)
     }
-
+    
     func cleanUpLocalCaches() {
         AsyncData.removeAllLocalFiles()
     }
-
+    
     func cleanUpDataBase() {
         do {
             try model.dropAllData()
@@ -158,44 +201,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Se tiró 3 el borrado de la BBDD!!!")
         }
     }
-
+    
     func cleanUp() {
         cleanUpUserDefaults()
         cleanUpLocalCaches()
         cleanUpDataBase()
-    }
-    
-    func proccessTheJSON(_ workerContext: NSManagedObjectContext) {
-        // Limpiar toda la data de prueba
-        cleanUp()
-        
-        do{
-            guard let url = Bundle.main.url(forResource: "books_readable", withExtension: "json") else {
-                fatalError("Unable to read json file!")
-            }
-            
-            let data = try Data(contentsOf: url)
-            let jsonDicts = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? JSONArray
-            
-            var _ = try decode(books: jsonDicts, context: workerContext)
-            
-//            // Unas annotations
-//            let req = NSFetchRequest<Book>(entityName: Book.entityName)
-//            req.fetchBatchSize = 50
-//            let books = try! workerContext.fetch(req)
-//            let anno = Annotation(book: books[0],
-//                       text: "",
-//                       latitude: 41.467273,
-//                       longitude: 2.091366,
-//                       address: nil,
-//                       context: workerContext)
-//            anno.photo?.image = UIImage(imageLiteralResourceName: "emptyBookCover.png")
-            
-            try workerContext.save()
-            
-            UserDefaults.standard.set(true, forKey: jsonFlag)
-        }catch {
-            fatalError("Error while loading model")
-        }
     }
 }

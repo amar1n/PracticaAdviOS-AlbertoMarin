@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class BookViewController: UIViewController {
     
@@ -35,6 +36,29 @@ class BookViewController: UIViewController {
     
     @IBAction func switchFavorite(_ sender: AnyObject) {
         model.favorite = !model.favorite
+    }
+    
+    @IBAction func viewAnnotations(_ sender: AnyObject) {
+        // Creamos el fetchRequest
+        let fr = NSFetchRequest<Annotation>(entityName: Annotation.entityName)
+        fr.fetchBatchSize = 24
+        fr.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false), NSSortDescriptor(key: "creationDate", ascending: false)]
+        fr.predicate = NSPredicate(format: "book == %@", model)
+        
+        // Creamos el fetchedResultsController
+        let fc = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: model.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
+        
+        // Layout
+        let l = UICollectionViewFlowLayout.init()
+        l.itemSize = CGSize(width: 140, height: 150)
+        l.scrollDirection = .vertical
+        l.minimumLineSpacing = 10
+        l.minimumInteritemSpacing = 10
+        l.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
+
+        // Controlador
+        let aVC = AnnotationsViewController(fetchedResultsController: fc as! NSFetchedResultsController<NSFetchRequestResult>, layout: l)
+        navigationController?.pushViewController(aVC, animated: true)
     }
     
     //MARK: - LifeCycle
