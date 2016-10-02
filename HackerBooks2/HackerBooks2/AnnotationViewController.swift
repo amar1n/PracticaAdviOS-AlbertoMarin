@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class AnnotationViewController: UIViewController {
     
@@ -55,14 +56,14 @@ class AnnotationViewController: UIViewController {
             buttons.append(cancel)
         }
         // Añadimos un botón de compartir la nota en las redes sociales
-        let share = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AnnotationViewController.share))
+        let share = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AnnotationViewController.share(sender:)))
         buttons.append(share)
         navigationItem.rightBarButtonItems = buttons
         
         startObservingKeyboard()
         
         setupInputAccessoryView()
-
+        
         // Añadimos un gestureRecognizer a la foto
         let tap = UITapGestureRecognizer(target: self, action: #selector(AnnotationViewController.displayDetailPhoto(sender:)))
         self.photoView.addGestureRecognizer(tap)
@@ -86,8 +87,45 @@ class AnnotationViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func share() {
+    func share(sender: UIButton!) {
+        if isNew {
+            if (self.textView.text?.isEmpty == false) || (self.photoView.image != nil) {
+                let composeSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                let txt = (self.textView.text?.isEmpty == false ? self.textView.text : "Hello Facebook!!!")
+                composeSheet?.setInitialText(txt)
+                if let img = self.photoView.image {
+                    composeSheet?.add(img)
+                }
+                
+                present(composeSheet!, animated: true, completion: nil)
+            }
+        } else {
+            if (self.model.text?.isEmpty == false) || (self.model.photo?.image != nil) {
+                let composeSheet = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                let txt = (self.model.text?.isEmpty == false ? self.model.text : "Hello Facebook!!!")
+                composeSheet?.setInitialText(txt)
+                if let img = model.photo?.image {
+                    composeSheet?.add(img)
+                }
+                
+                present(composeSheet!, animated: true, completion: nil)
+            }
+        }
     }
+    
+    func arrayOfItems() -> [Any] {
+        var items : [Any] = []
+        
+        if let txt = model.text {
+            items.append(txt)
+        }
+        if let img = model.photo?.image {
+            items.append(img)
+        }
+        
+        return items
+    }
+    
     
     func displayDetailPhoto(sender: UIButton!) {
         if self.model.photo == nil {
