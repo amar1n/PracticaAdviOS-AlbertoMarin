@@ -51,7 +51,7 @@ public class Book: NSManagedObject {
         let authors = try! context.fetch(req)
         
         if authors.count > 0 {
-            return authors[0]
+            return authors.last!
         }
         
         return Author(fullName: fullName, context: context)
@@ -65,7 +65,7 @@ public class Book: NSManagedObject {
         let bookTags = try! context.fetch(req)
         
         if bookTags.count > 0 {
-            return bookTags[0]
+            return bookTags.last
         } else {
             return nil
         }
@@ -85,7 +85,7 @@ public class Book: NSManagedObject {
         let tags = try! context.fetch(req)
         
         if tags.count > 0 {
-            return tags[0]
+            return tags.last
         } else {
             return nil
         }

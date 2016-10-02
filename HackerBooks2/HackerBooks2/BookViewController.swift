@@ -55,9 +55,10 @@ class BookViewController: UIViewController {
         l.minimumLineSpacing = 10
         l.minimumInteritemSpacing = 10
         l.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
-
+        
         // Controlador
         let aVC = AnnotationsViewController(fetchedResultsController: fc as! NSFetchedResultsController<NSFetchRequestResult>, layout: l)
+        aVC.myInit(book: model)
         navigationController?.pushViewController(aVC, animated: true)
     }
     
@@ -81,11 +82,11 @@ class BookViewController: UIViewController {
         bookObserver = _nc.addObserver(forName: BookCoverImageDidDownload, object: book.cover, queue: nil) { (n: Notification) in
             self.syncViewWithModel()
         }
-
+        
         bookObserver = _nc.addObserver(forName: BookDidChange, object: book, queue: nil) { (n: Notification) in
             self.syncViewWithModel()
         }
-}
+    }
     
     func stopObserving(book: Book) {
         _nc.removeObserver(bookObserver)

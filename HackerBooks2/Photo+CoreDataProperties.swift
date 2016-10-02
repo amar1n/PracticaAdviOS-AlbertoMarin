@@ -2,7 +2,7 @@
 //  Photo+CoreDataProperties.swift
 //  HackerBooks2
 //
-//  Created by Alberto Marín García on 1/10/16.
+//  Created by Alberto Marín García on 2/10/16.
 //  Copyright © 2016 Alberto Marín García. All rights reserved.
 //
 

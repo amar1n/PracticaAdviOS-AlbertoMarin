@@ -9,58 +9,42 @@
 import UIKit
 
 class AnnotationCollectionViewCell: UICollectionViewCell {
-    
-    static func observableKeys() -> [String] {
-        return [ "text", "modificationDate", "photo.image", "location", "location.latitude", "location.longitude", "location.address" ]
-    }
-    
     // MARK:  - Properties
+    var annotation : Annotation?
     @IBOutlet weak var photoView: UIImageView!
     @IBOutlet weak var modificationDateView: UILabel!
     @IBOutlet weak var titleView: UILabel!
     @IBOutlet weak var locationView: UIImageView!
+    
+    //MARK: - Inits
+    func myInit(annotation: Annotation) {
+        self.annotation = annotation
+        
+        syncViewsWith(model: annotation)
+    }
     
     //MARK: - Lifecycle
     override func prepareForReuse() {
         syncViewsWith(model: nil)
     }
     
-    // Esto no funciona
-    //    deinit {
-    //        print("...............deinit")
-    //        NotificationCenter.default.removeObserver(self)
-    //    }
-    
     //MARK: - Syncing
     func syncViewsWith(model: Annotation?) {
+        locationView.image = nil
+        
         photoView.image = model?.photo?.image
         let df = DateFormatter()
         df.dateStyle = .medium
-        modificationDateView.text = df.string(from: model?.modificationDate as! Date)
-        titleView.text = model?.text
         
-        locationView.image = nil
-        if (model?.hasLocation)! {
-            locationView.image = UIImage(imageLiteralResourceName: "placemark.png")
-        }
-    }
-    
-    //MARK: - KVO
-    func observe(annotation: Annotation) {
-        // Observar ciertas propiedades...
-        for key in AnnotationCollectionViewCell.observableKeys () {
-            annotation.addObserver(self, forKeyPath: key, options: NSKeyValueObservingOptions.new, context: nil)
-        }
-        
-        syncViewsWith(model: annotation)
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let obj = object {
-            let bFlag: Bool = obj is Annotation
-            if bFlag {
-                syncViewsWith(model: (obj as! Annotation))
+        if let m = model {
+            if let md : Date = m.modificationDate as Date? {
+                modificationDateView.text = df.string(from: md)
             }
+            if m.hasLocation {
+                locationView.image = UIImage(imageLiteralResourceName: "placemark.png")
+            }
+            
         }
+        titleView.text = model?.text
     }
 }

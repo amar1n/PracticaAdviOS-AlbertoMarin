@@ -14,7 +14,7 @@ let lastBookTagViewed = "LastBookTagViewed"
 let searchController = UISearchController(searchResultsController: nil)
 
 class LibraryViewController: CoreDataTableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "HackerBooks 2"
@@ -26,7 +26,7 @@ class LibraryViewController: CoreDataTableViewController {
         searchController.searchBar.delegate = self
         tableView.tableHeaderView = searchController.searchBar
     }
-
+    
     func saveTheBookTagViewed(bookTag: BookTag) {
         let uri = bookTag.objectID.uriRepresentation()
         UserDefaults.standard.set(uri, forKey: lastBookTagViewed)
@@ -70,7 +70,7 @@ extension LibraryViewController {
     }
 }
 
-////MARK: - UISearchBarDelegate
+//MARK: - UISearchBarDelegate
 extension LibraryViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
@@ -82,7 +82,7 @@ extension LibraryViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
-
+    
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         guard let frc = fetchedResultsController else {
             return

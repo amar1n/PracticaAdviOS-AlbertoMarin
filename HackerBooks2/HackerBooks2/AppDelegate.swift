@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func startUp(_ workerContext: NSManagedObjectContext) {
-        //        proccessTheJSON(workerContext)
+        //proccessTheJSON(workerContext)
         if (!UserDefaults.standard.bool(forKey: jsonFlag)) {
             print("........processing the JSON!!!")
             proccessTheJSON(workerContext)
@@ -123,15 +123,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             var _ = try decode(books: jsonDicts, context: workerContext)
             
-            // Unas annotations
             let req = NSFetchRequest<Book>(entityName: Book.entityName)
             req.fetchBatchSize = 50
             let books = try! workerContext.fetch(req)
             let anno = Annotation(book: books[0],
-                                  text: "",
-                                  latitude: 41.467273,
-                                  longitude: 2.091366,
-                                  address: nil,
                                   context: workerContext)
             anno.photo?.image = UIImage(imageLiteralResourceName: "emptyBookCover.png")
             
@@ -178,7 +173,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let bookTags = try! context.fetch(req)
         
         if bookTags.count > 0 {
-            return bookTags[0]
+            return bookTags.last
         } else {
             return nil
         }

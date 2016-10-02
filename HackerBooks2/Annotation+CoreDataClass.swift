@@ -12,9 +12,8 @@ import UIKit
 import CoreLocation
 
 public class Annotation: NSManagedObject {
-//public class Annotation: NSManagedObject, CLLocationManagerDelegate {
     
-//    var locationManager: CLLocationManager? = nil
+    var locationManager: CLLocationManager? = nil
     
     static let entityName = "Annotation"
     
@@ -25,70 +24,91 @@ public class Annotation: NSManagedObject {
         }
     }
 
-    convenience init(book: Book, text: String, latitude: Double?, longitude: Double?, address: String?, context: NSManagedObjectContext) {
+    //MARK:- Inits
+    convenience init(book: Book, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Annotation.entityName, in: context)!
         
         self.init(entity: entity, insertInto: context)
-        
+
         self.creationDate = NSDate()
         self.modificationDate = NSDate()
-        self.text = text
         self.book = book
-
-        if let la = latitude, let lo = longitude, let ad = address {
-            self.location = Location(latitude: la, longitude: lo, address: ad, context: context)
-        } else {
-            if let la = latitude, let lo = longitude {
-                self.location = Location(latitude: la, longitude: lo, context: context)
-            } else {
-                if let ad = address {
-                    self.location = Location(address: ad, context: context)
-                } else {
-                    self.location = Location(address: "GreySkull!!!", context: context)
-                }
-            }
-        }
-
-        self.photo = Photo(annotation: self, context: context)
     }
-    
-//    //MARK: - CLLocationManagerDelegate
-//    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        
-//    }
+
+    //MARK:- Utils
+    func zapLocationManager() {
+        self.locationManager?.stopUpdatingLocation()
+        self.locationManager?.delegate = nil
+        self.locationManager = nil
+    }
 }
 
-////MARK: - Lifecycle
-//extension Annotation {
-//    // Se llama una sola vez
-//    public override func awakeFromInsert() {
-//        super.awakeFromInsert()
-//        
-//        if CLLocationManager.locationServicesEnabled() {
-//            switch(CLLocationManager.authorizationStatus()) {
-//            case .notDetermined, .restricted, .denied:
-//                print("No access")
-//            case .authorizedAlways, .authorizedWhenInUse:
-//                
-//                self.locationManager = CLLocationManager()
-//                self.locationManager?.delegate = self
-//                self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-//                self.locationManager?.startUpdatingLocation()
-//                
-//                print("Access")
-//            }
-//        } else {
-//            print("Location services are not enabled")
-//        }
-//        
-//    }
-//    
-//    // Se llama un monton de veces
-//    public override func awakeFromFetch() {
-//        super.awakeFromFetch()
-//    }
-//    
-//    public override func willTurnIntoFault() {
-//        super.willTurnIntoFault()
-//    }
-//}
+//MARK: - Lifecycle
+extension Annotation {
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                print("No access")
+            case .authorizedAlways, .authorizedWhenInUse:
+                
+                self.locationManager = CLLocationManager()
+                self.locationManager?.delegate = self
+                self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+                self.locationManager?.startUpdatingLocation()
+                
+                // Solo interesan datos recientes
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    self.zapLocationManager()
+                }
+            }
+        } else {
+            print("Location services are not enabled")
+        }
+        
+    }
+}
+
+//MARK:- CLLocationManagerDelegate
+extension Annotation: CLLocationManagerDelegate {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // Lo paramos
+        zapLocationManager()
+        
+        if !hasLocation {
+            // Agarramos la ultima localizacion
+            let lastLocation = locations.last
+            
+            // Creamos la Location
+            var location: Location? = nil
+            if (lastLocation != nil) {
+                location = findLocationWith(cllocation: lastLocation!)
+                if location == nil {
+                    location = Location(location: lastLocation!, context: managedObjectContext!)
+                } else {
+                    print("..........Reutilizamos la location")
+                }
+            } else {
+                print("..........lastLocation es nil")
+            }
+            self.location = location
+        } else {
+            print("..............Aqui nunca deberia entrar!!!")
+        }
+    }
+    
+    func findLocationWith(cllocation: CLLocation) -> Location? {
+        let req = NSFetchRequest<Location>(entityName: Location.entityName)
+        let latitudePredicate = NSPredicate(format: "abs(latitude) - abs(%lf) < 0.001", cllocation.coordinate.latitude)
+        let longitudePredicate = NSPredicate(format: "abs(longitude) - abs(%lf) < 0.001", cllocation.coordinate.longitude)
+        req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
+        let results = try! self.managedObjectContext!.fetch(req)
+        
+        if results.count > 0 {
+            return results.last
+        }
+        return nil
+    }
+}
