@@ -151,7 +151,7 @@ extension Book {
                 if (tag != nil) {
                     let bt = findBookTag(book: self, tag: tag!, context: managedObjectContext!)
                     if (bt != nil) {
-                        removeFromBookTags(bt!)
+                        managedObjectContext?.delete(bt!)
                     }
                 }
             }

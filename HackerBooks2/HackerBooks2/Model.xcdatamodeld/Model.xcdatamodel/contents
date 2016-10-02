@@ -17,7 +17,7 @@
         <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Annotation" inverseName="book" inverseEntity="Annotation" syncable="YES"/>
         <relationship name="authors" toMany="YES" deletionRule="Nullify" destinationEntity="Author" inverseName="books" inverseEntity="Author" syncable="YES"/>
-        <relationship name="bookTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="book" inverseEntity="BookTag" syncable="YES"/>
+        <relationship name="bookTags" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BookTag" inverseName="book" inverseEntity="BookTag" syncable="YES"/>
         <relationship name="cover" maxCount="1" deletionRule="Cascade" destinationEntity="Cover" inverseName="book" inverseEntity="Cover" syncable="YES"/>
         <relationship name="pdf" maxCount="1" deletionRule="Cascade" destinationEntity="Pdf" inverseName="book" inverseEntity="Pdf" syncable="YES"/>
     </entity>
@@ -48,7 +48,7 @@
     <entity name="Tag" representedClassName=".Tag" syncable="YES">
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="proxySorting" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="bookTag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
+        <relationship name="bookTag" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
     </entity>
     <elements>
         <element name="Annotation" positionX="-45" positionY="-63" width="128" height="135"/>

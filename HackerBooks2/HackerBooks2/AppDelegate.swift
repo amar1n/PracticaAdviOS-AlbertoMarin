@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cleanUp()
         
         do{
-            guard let url = Bundle.main.url(forResource: "amg_books_readable", withExtension: "json") else {
+            guard let url = Bundle.main.url(forResource: "books_readable", withExtension: "json") else {
                 fatalError("Unable to read json file!")
             }
             
