@@ -82,7 +82,6 @@ class AnnotationViewController: UIViewController {
     
     //MARK: - Utils
     func cancel() {
-        print("...................Hola Su")
         deleteCurrentAnnotation = true
         self.navigationController?.popViewController(animated: true)
     }
