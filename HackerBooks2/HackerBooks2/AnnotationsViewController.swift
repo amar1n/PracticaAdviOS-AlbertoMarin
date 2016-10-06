@@ -37,7 +37,7 @@ class AnnotationsViewController: CoreDataCollectionViewController {
     func addNewAnnotation() {
         let note = Annotation(book: self.book!, context: fetchedResultsController!.managedObjectContext)
         
-        let aVC = AnnotationViewController(model: note, isNew: true)
+        let aVC = NoteViewController(model: note, isNew: true)
         navigationController?.pushViewController(aVC, animated: true)
     }
     
@@ -61,7 +61,7 @@ class AnnotationsViewController: CoreDataCollectionViewController {
         let a = fetchedResultsController?.object(at: indexPath) as! Annotation
         
         // Crear el VC
-        let vc = AnnotationViewController(model: a, isNew: false)
+        let vc = NoteViewController(model: a, isNew: false)
         
         // Mostrarlo
         navigationController?.pushViewController(vc, animated: true)

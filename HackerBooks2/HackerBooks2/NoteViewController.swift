@@ -9,7 +9,7 @@
 import UIKit
 import Social
 
-class AnnotationViewController: UIViewController {
+class NoteViewController: UIViewController {
     
     var model : Annotation
     var isNew : Bool
@@ -53,15 +53,15 @@ class AnnotationViewController: UIViewController {
         var buttons = [UIBarButtonItem]()
         if (self.isNew) {
             // Botón de cancelar
-            let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(AnnotationViewController.cancel))
+            let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(NoteViewController.cancel))
             buttons.append(cancel)
         } else {
             // Botón de borrar la nota
-            let cancel = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(AnnotationViewController.trash))
+            let cancel = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(NoteViewController.trash))
             buttons.append(cancel)
         }
         // Botón de compartir la nota en las redes sociales
-        let share = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AnnotationViewController.share(sender:)))
+        let share = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.plain, target: self, action: #selector(NoteViewController.share(sender:)))
         buttons.append(share)
         navigationItem.rightBarButtonItems = buttons
         
@@ -70,7 +70,7 @@ class AnnotationViewController: UIViewController {
         setupInputAccessoryView()
         
         // Foto... Añadimos un gestureRecognizer para añadir una foto
-        let tap = UITapGestureRecognizer(target: self, action: #selector(AnnotationViewController.displayDetailPhoto(sender:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(NoteViewController.displayDetailPhoto(sender:)))
         self.photoView.addGestureRecognizer(tap)
     }
     
@@ -136,8 +136,8 @@ class AnnotationViewController: UIViewController {
     //MARK: - Keyboard
     func startObservingKeyboard() {
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(AnnotationViewController.notifyThatKeyboardWillAppear(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        nc.addObserver(self, selector: #selector(AnnotationViewController.notifyThatKeyboardWillDisappear(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        nc.addObserver(self, selector: #selector(NoteViewController.notifyThatKeyboardWillAppear(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        nc.addObserver(self, selector: #selector(NoteViewController.notifyThatKeyboardWillDisappear(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func stopObservingKeyboard() {
@@ -205,7 +205,7 @@ class AnnotationViewController: UIViewController {
         
         // Añadimos botones
         let sep = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(AnnotationViewController.dismisKeyboard(sender:)))
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(NoteViewController.dismisKeyboard(sender:)))
         textBar.items = [sep, done]
         
         // La asignamos como accessoryInputView

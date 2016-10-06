@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D32346B31DA1983200440276 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32346B11DA1983200440276 /* PhotoViewController.swift */; };
 		D32346B41DA1983200440276 /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D32346B21DA1983200440276 /* PhotoViewController.xib */; };
+		D346158A1DA6C09600D74A02 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34615891DA6C09600D74A02 /* NoteViewController.swift */; };
+		D346158C1DA6C0A600D74A02 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D346158B1DA6C0A600D74A02 /* NoteViewController.xib */; };
 		D358E28F1D9D5B36003AE323 /* CoreDataCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D358E28E1D9D5B36003AE323 /* CoreDataCollectionViewController.swift */; };
 		D358E2911D9D6197003AE323 /* AnnotationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D358E2901D9D6197003AE323 /* AnnotationsViewController.swift */; };
 		D358E2961D9DE0B5003AE323 /* AnnotationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D358E2951D9DE0B5003AE323 /* AnnotationCollectionViewCell.swift */; };
@@ -39,8 +41,6 @@
 		D35F8D291D93452700F2E1BB /* emptyPdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D35F8D261D93452700F2E1BB /* emptyPdf.pdf */; };
 		D35F8D2C1D93457700F2E1BB /* JSONProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35F8D2B1D93457700F2E1BB /* JSONProcessing.swift */; };
 		D35F8D2E1D934B6E00F2E1BB /* AsyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35F8D2D1D934B6E00F2E1BB /* AsyncData.swift */; };
-		D3613A3D1DA0F8E400945020 /* AnnotationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3613A3B1DA0F8E400945020 /* AnnotationViewController.swift */; };
-		D3613A3E1DA0F8E400945020 /* AnnotationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3613A3C1DA0F8E400945020 /* AnnotationViewController.xib */; };
 		D38598F51D9072CE008C8947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38598F41D9072CE008C8947 /* AppDelegate.swift */; };
 		D38598FC1D9072CE008C8947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D38598FB1D9072CE008C8947 /* Assets.xcassets */; };
 		D385990C1D909476008C8947 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D385990B1D909476008C8947 /* CoreDataStack.swift */; };
@@ -57,6 +57,8 @@
 /* Begin PBXFileReference section */
 		D32346B11DA1983200440276 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		D32346B21DA1983200440276 /* PhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController.xib; sourceTree = "<group>"; };
+		D34615891DA6C09600D74A02 /* NoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
+		D346158B1DA6C0A600D74A02 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
 		D358E28E1D9D5B36003AE323 /* CoreDataCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataCollectionViewController.swift; sourceTree = "<group>"; };
 		D358E2901D9D6197003AE323 /* AnnotationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationsViewController.swift; sourceTree = "<group>"; };
 		D358E2951D9DE0B5003AE323 /* AnnotationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -87,8 +89,6 @@
 		D35F8D261D93452700F2E1BB /* emptyPdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = emptyPdf.pdf; sourceTree = "<group>"; };
 		D35F8D2B1D93457700F2E1BB /* JSONProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONProcessing.swift; sourceTree = "<group>"; };
 		D35F8D2D1D934B6E00F2E1BB /* AsyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncData.swift; sourceTree = "<group>"; };
-		D3613A3B1DA0F8E400945020 /* AnnotationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationViewController.swift; sourceTree = "<group>"; };
-		D3613A3C1DA0F8E400945020 /* AnnotationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnotationViewController.xib; sourceTree = "<group>"; };
 		D38598F11D9072CE008C8947 /* HackerBooks2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D38598F41D9072CE008C8947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D38598FB1D9072CE008C8947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -225,8 +225,8 @@
 				D3DFBD231D9B289E002BB7EC /* PdfViewController.swift */,
 				D3DFBD241D9B289E002BB7EC /* PdfViewController.xib */,
 				D358E2901D9D6197003AE323 /* AnnotationsViewController.swift */,
-				D3613A3B1DA0F8E400945020 /* AnnotationViewController.swift */,
-				D3613A3C1DA0F8E400945020 /* AnnotationViewController.xib */,
+				D34615891DA6C09600D74A02 /* NoteViewController.swift */,
+				D346158B1DA6C0A600D74A02 /* NoteViewController.xib */,
 				D32346B11DA1983200440276 /* PhotoViewController.swift */,
 				D32346B21DA1983200440276 /* PhotoViewController.xib */,
 			);
@@ -296,9 +296,9 @@
 				D35F8D291D93452700F2E1BB /* emptyPdf.pdf in Resources */,
 				D38598FC1D9072CE008C8947 /* Assets.xcassets in Resources */,
 				D39B02341D99BB2C00722266 /* BookViewController.xib in Resources */,
-				D3613A3E1DA0F8E400945020 /* AnnotationViewController.xib in Resources */,
 				D358E29F1D9DE518003AE323 /* noSnapshot.png in Resources */,
 				D358E2A01D9DE518003AE323 /* placemark.png in Resources */,
+				D346158C1DA6C0A600D74A02 /* NoteViewController.xib in Resources */,
 				D3DFBD261D9B289E002BB7EC /* PdfViewController.xib in Resources */,
 				D35F8D281D93452700F2E1BB /* emptyBookCover.png in Resources */,
 				D35F8D271D93452700F2E1BB /* books_readable.json in Resources */,
@@ -334,13 +334,13 @@
 				D358E2911D9D6197003AE323 /* AnnotationsViewController.swift in Sources */,
 				D3F73AAE1D98238E00A02A15 /* LibraryViewController.swift in Sources */,
 				D35F8D1C1D93239700F2E1BB /* Tag+CoreDataClass.swift in Sources */,
-				D3613A3D1DA0F8E400945020 /* AnnotationViewController.swift in Sources */,
 				D35F8D231D93239700F2E1BB /* Book+CoreDataProperties.swift in Sources */,
 				D35F8D191D93239700F2E1BB /* Author+CoreDataProperties.swift in Sources */,
 				D35F8D1E1D93239700F2E1BB /* Cover+CoreDataClass.swift in Sources */,
 				D35F8D1F1D93239700F2E1BB /* Cover+CoreDataProperties.swift in Sources */,
 				D35F8D121D93239700F2E1BB /* Location+CoreDataClass.swift in Sources */,
 				D35F8D221D93239700F2E1BB /* Book+CoreDataClass.swift in Sources */,
+				D346158A1DA6C09600D74A02 /* NoteViewController.swift in Sources */,
 				D35F8D2E1D934B6E00F2E1BB /* AsyncData.swift in Sources */,
 				D35F8D171D93239700F2E1BB /* BookTag+CoreDataProperties.swift in Sources */,
 				D35F8D1D1D93239700F2E1BB /* Tag+CoreDataProperties.swift in Sources */,
