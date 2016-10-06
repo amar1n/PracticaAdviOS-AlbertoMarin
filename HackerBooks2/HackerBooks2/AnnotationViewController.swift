@@ -54,6 +54,10 @@ class AnnotationViewController: UIViewController {
             // Mostramos el botón de cancelar
             let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(AnnotationViewController.cancel))
             buttons.append(cancel)
+        } else {
+            // Mostramos el botón de borrar la nota
+            let cancel = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(AnnotationViewController.trash))
+            buttons.append(cancel)
         }
         // Añadimos un botón de compartir la nota en las redes sociales
         let share = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AnnotationViewController.share(sender:)))
@@ -74,18 +78,24 @@ class AnnotationViewController: UIViewController {
         
         if deleteCurrentAnnotation {
             self.model.managedObjectContext?.delete(model)
+            self.model.managedObjectContext?.processPendingChanges()
         } else {
             self.model.text = self.textView.text
             self.model.photo?.image = self.photoView.image
         }
     }
     
-    //MARK: - Utils
+    //MARK: - Actions
     func cancel() {
         deleteCurrentAnnotation = true
         self.navigationController?.popViewController(animated: true)
     }
-    
+
+    func trash() {
+        deleteCurrentAnnotation = true
+        self.navigationController?.popViewController(animated: true)
+    }
+
     func share(sender: UIButton!) {
         if isNew {
             if (self.textView.text?.isEmpty == false) || (self.photoView.image != nil) {
@@ -112,6 +122,7 @@ class AnnotationViewController: UIViewController {
         }
     }
     
+    //MARK: - Utils
     func arrayOfItems() -> [Any] {
         var items : [Any] = []
         
@@ -217,4 +228,5 @@ class AnnotationViewController: UIViewController {
     func dismisKeyboard(sender: UIButton!) {
         self.view.endEditing(true)
     }
+    
 }
