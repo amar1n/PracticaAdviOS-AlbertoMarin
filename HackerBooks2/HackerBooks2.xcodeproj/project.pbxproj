@@ -39,7 +39,6 @@
 		D35F8D291D93452700F2E1BB /* emptyPdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D35F8D261D93452700F2E1BB /* emptyPdf.pdf */; };
 		D35F8D2C1D93457700F2E1BB /* JSONProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35F8D2B1D93457700F2E1BB /* JSONProcessing.swift */; };
 		D35F8D2E1D934B6E00F2E1BB /* AsyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35F8D2D1D934B6E00F2E1BB /* AsyncData.swift */; };
-		D3613A3A1DA01E9E00945020 /* amg_books_readable.json in Resources */ = {isa = PBXBuildFile; fileRef = D3613A391DA01E9E00945020 /* amg_books_readable.json */; };
 		D3613A3D1DA0F8E400945020 /* AnnotationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3613A3B1DA0F8E400945020 /* AnnotationViewController.swift */; };
 		D3613A3E1DA0F8E400945020 /* AnnotationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3613A3C1DA0F8E400945020 /* AnnotationViewController.xib */; };
 		D38598F51D9072CE008C8947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38598F41D9072CE008C8947 /* AppDelegate.swift */; };
@@ -88,7 +87,6 @@
 		D35F8D261D93452700F2E1BB /* emptyPdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = emptyPdf.pdf; sourceTree = "<group>"; };
 		D35F8D2B1D93457700F2E1BB /* JSONProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONProcessing.swift; sourceTree = "<group>"; };
 		D35F8D2D1D934B6E00F2E1BB /* AsyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncData.swift; sourceTree = "<group>"; };
-		D3613A391DA01E9E00945020 /* amg_books_readable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amg_books_readable.json; sourceTree = "<group>"; };
 		D3613A3B1DA0F8E400945020 /* AnnotationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationViewController.swift; sourceTree = "<group>"; };
 		D3613A3C1DA0F8E400945020 /* AnnotationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnotationViewController.xib; sourceTree = "<group>"; };
 		D38598F11D9072CE008C8947 /* HackerBooks2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,7 +133,6 @@
 				D35F8D241D93452600F2E1BB /* books_readable.json */,
 				D35F8D251D93452600F2E1BB /* emptyBookCover.png */,
 				D35F8D261D93452700F2E1BB /* emptyPdf.pdf */,
-				D3613A391DA01E9E00945020 /* amg_books_readable.json */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -308,7 +305,6 @@
 				D358E29E1D9DE518003AE323 /* noImage.png in Resources */,
 				D32346B41DA1983200440276 /* PhotoViewController.xib in Resources */,
 				D358E2981D9DE0C8003AE323 /* AnnotationCollectionViewCell.xib in Resources */,
-				D3613A3A1DA01E9E00945020 /* amg_books_readable.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

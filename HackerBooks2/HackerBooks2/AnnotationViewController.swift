@@ -49,26 +49,27 @@ class AnnotationViewController: UIViewController {
         self.photoView.image = img;
         self.addressView.text = self.model.location?.address
         
+        // Botones...
         var buttons = [UIBarButtonItem]()
         if (self.isNew) {
-            // Mostramos el botón de cancelar
+            // Botón de cancelar
             let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(AnnotationViewController.cancel))
             buttons.append(cancel)
         } else {
-            // Mostramos el botón de borrar la nota
+            // Botón de borrar la nota
             let cancel = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(AnnotationViewController.trash))
             buttons.append(cancel)
         }
-        // Añadimos un botón de compartir la nota en las redes sociales
+        // Botón de compartir la nota en las redes sociales
         let share = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AnnotationViewController.share(sender:)))
         buttons.append(share)
         navigationItem.rightBarButtonItems = buttons
         
+        // Teclado
         startObservingKeyboard()
-        
         setupInputAccessoryView()
         
-        // Añadimos un gestureRecognizer a la foto
+        // Foto... Añadimos un gestureRecognizer para añadir una foto
         let tap = UITapGestureRecognizer(target: self, action: #selector(AnnotationViewController.displayDetailPhoto(sender:)))
         self.photoView.addGestureRecognizer(tap)
     }
@@ -122,21 +123,7 @@ class AnnotationViewController: UIViewController {
         }
     }
     
-    //MARK: - Utils
-    func arrayOfItems() -> [Any] {
-        var items : [Any] = []
-        
-        if let txt = model.text {
-            items.append(txt)
-        }
-        if let img = model.photo?.image {
-            items.append(img)
-        }
-        
-        return items
-    }
-    
-    
+    //MARK: - Photo
     func displayDetailPhoto(sender: UIButton!) {
         if self.model.photo == nil {
             self.model.photo = Photo(annotation: model, context: model.managedObjectContext!)
