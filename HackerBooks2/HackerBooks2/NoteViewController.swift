@@ -50,6 +50,7 @@ class NoteViewController: UIViewController {
         // self.addressView.text = self.model.location?.address
         if let add = self.model.location?.address {
             self.addressView.text = add
+            self.addressView.isUserInteractionEnabled = true
         }
         
         // Botones...

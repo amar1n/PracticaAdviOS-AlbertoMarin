@@ -46,7 +46,7 @@ extension Annotation : MKAnnotation {
     
     public var subtitle: String? {
         get {
-            return "Under construction..."
+            return self.text
         }
     }
     
@@ -66,7 +66,6 @@ extension Annotation {
         let status = CLLocationManager.authorizationStatus()
         if (CLLocationManager.locationServicesEnabled() &&
             ((status == CLAuthorizationStatus.authorizedAlways) || (status == CLAuthorizationStatus.notDetermined))) {
-            print(".......awakeFromInsert 1")
             // Tenemos localizacion!!!
             self.locationManager = CLLocationManager()
             self.locationManager?.delegate = self
@@ -95,13 +94,10 @@ extension Annotation {
 //MARK:- CLLocationManagerDelegate
 extension Annotation: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(".......didUpdateLocations 1")
         // Lo paramos
         zapLocationManager()
-        print(".......didUpdateLocations 1")
         
         if (!self.hasLocation) {
-            print(".......didUpdateLocations 1")
             // Agarramos la ultima localizacion
             let lastLocation = locations.last
             
