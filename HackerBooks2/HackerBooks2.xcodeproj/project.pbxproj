@@ -11,6 +11,8 @@
 		D32346B41DA1983200440276 /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D32346B21DA1983200440276 /* PhotoViewController.xib */; };
 		D346158A1DA6C09600D74A02 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34615891DA6C09600D74A02 /* NoteViewController.swift */; };
 		D346158C1DA6C0A600D74A02 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D346158B1DA6C0A600D74A02 /* NoteViewController.xib */; };
+		D346158F1DA6CB0B00D74A02 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D346158D1DA6CB0B00D74A02 /* LocationViewController.swift */; };
+		D34615901DA6CB0B00D74A02 /* LocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D346158E1DA6CB0B00D74A02 /* LocationViewController.xib */; };
 		D358E28F1D9D5B36003AE323 /* CoreDataCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D358E28E1D9D5B36003AE323 /* CoreDataCollectionViewController.swift */; };
 		D358E2911D9D6197003AE323 /* AnnotationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D358E2901D9D6197003AE323 /* AnnotationsViewController.swift */; };
 		D358E2961D9DE0B5003AE323 /* AnnotationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D358E2951D9DE0B5003AE323 /* AnnotationCollectionViewCell.swift */; };
@@ -59,6 +61,8 @@
 		D32346B21DA1983200440276 /* PhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController.xib; sourceTree = "<group>"; };
 		D34615891DA6C09600D74A02 /* NoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		D346158B1DA6C0A600D74A02 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
+		D346158D1DA6CB0B00D74A02 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		D346158E1DA6CB0B00D74A02 /* LocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationViewController.xib; sourceTree = "<group>"; };
 		D358E28E1D9D5B36003AE323 /* CoreDataCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataCollectionViewController.swift; sourceTree = "<group>"; };
 		D358E2901D9D6197003AE323 /* AnnotationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationsViewController.swift; sourceTree = "<group>"; };
 		D358E2951D9DE0B5003AE323 /* AnnotationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -229,6 +233,8 @@
 				D346158B1DA6C0A600D74A02 /* NoteViewController.xib */,
 				D32346B11DA1983200440276 /* PhotoViewController.swift */,
 				D32346B21DA1983200440276 /* PhotoViewController.xib */,
+				D346158D1DA6CB0B00D74A02 /* LocationViewController.swift */,
+				D346158E1DA6CB0B00D74A02 /* LocationViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 				D35F8D291D93452700F2E1BB /* emptyPdf.pdf in Resources */,
 				D38598FC1D9072CE008C8947 /* Assets.xcassets in Resources */,
 				D39B02341D99BB2C00722266 /* BookViewController.xib in Resources */,
+				D34615901DA6CB0B00D74A02 /* LocationViewController.xib in Resources */,
 				D358E29F1D9DE518003AE323 /* noSnapshot.png in Resources */,
 				D358E2A01D9DE518003AE323 /* placemark.png in Resources */,
 				D346158C1DA6C0A600D74A02 /* NoteViewController.xib in Resources */,
@@ -336,6 +343,7 @@
 				D35F8D1C1D93239700F2E1BB /* Tag+CoreDataClass.swift in Sources */,
 				D35F8D231D93239700F2E1BB /* Book+CoreDataProperties.swift in Sources */,
 				D35F8D191D93239700F2E1BB /* Author+CoreDataProperties.swift in Sources */,
+				D346158F1DA6CB0B00D74A02 /* LocationViewController.swift in Sources */,
 				D35F8D1E1D93239700F2E1BB /* Cover+CoreDataClass.swift in Sources */,
 				D35F8D1F1D93239700F2E1BB /* Cover+CoreDataProperties.swift in Sources */,
 				D35F8D121D93239700F2E1BB /* Location+CoreDataClass.swift in Sources */,

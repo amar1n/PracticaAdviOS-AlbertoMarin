@@ -47,7 +47,10 @@ class NoteViewController: UIViewController {
             img = UIImage(imageLiteralResourceName: "noImage.png")
         }
         self.photoView.image = img;
-        self.addressView.text = self.model.location?.address
+        // self.addressView.text = self.model.location?.address
+        if let add = self.model.location?.address {
+            self.addressView.text = add
+        }
         
         // Botones...
         var buttons = [UIBarButtonItem]()
@@ -70,8 +73,15 @@ class NoteViewController: UIViewController {
         setupInputAccessoryView()
         
         // Foto... Añadimos un gestureRecognizer para añadir una foto
-        let tap = UITapGestureRecognizer(target: self, action: #selector(NoteViewController.displayDetailPhoto(sender:)))
-        self.photoView.addGestureRecognizer(tap)
+        let tapPhoto = UITapGestureRecognizer(target: self, action: #selector(NoteViewController.displayDetailPhoto(sender:)))
+        self.photoView.addGestureRecognizer(tapPhoto)
+
+        // Dirección
+        startObservingLocation()
+
+        // Añadimos un gestureRecognizer para la vista de location
+        let tapLocation = UITapGestureRecognizer(target: self, action: #selector(NoteViewController.displayDetailLocation(sender:)))
+        self.addressView.addGestureRecognizer(tapLocation)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,6 +94,10 @@ class NoteViewController: UIViewController {
             self.model.text = self.textView.text
             self.model.photo?.image = self.photoView.image
         }
+        
+        stopObservingKeyboard()
+        
+        stopObservingLocation()
     }
     
     //MARK: - Actions
@@ -216,4 +230,28 @@ class NoteViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    //MARK: - Location
+    func startObservingLocation() {
+        self.model.addObserver(self, forKeyPath: "location.address", options: NSKeyValueObservingOptions.new, context: nil)
+    }
+    
+    func stopObservingLocation() {
+        self.model.removeObserver(self, forKeyPath: "location.address")
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        self.addressView.isUserInteractionEnabled = true
+        guard let address = self.model.location?.address else {
+            self.addressView.text = "Nada..."
+            self.addressView.isUserInteractionEnabled = false
+            return
+        }
+        self.addressView.text = address
+    }
+
+    func displayDetailLocation(sender: UIButton!) {
+        let lVC = LocationViewController(model: self.model)
+        self.navigationController?.pushViewController(lVC, animated: true)
+    }
 }

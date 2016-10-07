@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 import UIKit
-import CoreLocation
+import MapKit
 
 public class Annotation: NSManagedObject {
     
@@ -23,92 +23,136 @@ public class Annotation: NSManagedObject {
             return self.location != nil
         }
     }
-
+    
     //MARK:- Inits
     convenience init(book: Book, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: Annotation.entityName, in: context)!
         
         self.init(entity: entity, insertInto: context)
-
+        
         self.creationDate = NSDate()
         self.modificationDate = NSDate()
         self.book = book
     }
+}
 
+extension Annotation : MKAnnotation {
+    
+    public var title: String? {
+        get {
+            return "I wrote a note here!!!"
+        }
+    }
+    
+    public var subtitle: String? {
+        get {
+            return "Under construction..."
+        }
+    }
+    
+    public var coordinate: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2DMake((self.location?.latitude)!, (self.location?.longitude)!)
+        }
+    }
+}
+
+//MARK: - Lifecycle
+extension Annotation {
+    
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        
+        let status = CLLocationManager.authorizationStatus()
+        if (CLLocationManager.locationServicesEnabled() &&
+            ((status == CLAuthorizationStatus.authorizedAlways) || (status == CLAuthorizationStatus.notDetermined))) {
+            print(".......awakeFromInsert 1")
+            // Tenemos localizacion!!!
+            self.locationManager = CLLocationManager()
+            self.locationManager?.delegate = self
+            self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+            self.locationManager?.requestAlwaysAuthorization()
+            self.locationManager?.startUpdatingLocation()
+            
+            // Solo interesan datos recientes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                self.zapLocationManager()
+            }
+        } else {
+            print("Location services are not enabled")
+        }
+    }
+    
     //MARK:- Utils
     func zapLocationManager() {
         self.locationManager?.stopUpdatingLocation()
         self.locationManager?.delegate = nil
         self.locationManager = nil
     }
-}
-
-//MARK: - Lifecycle
-extension Annotation {
-    public override func awakeFromInsert() {
-        super.awakeFromInsert()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                print("No access")
-            case .authorizedAlways, .authorizedWhenInUse:
-                
-                self.locationManager = CLLocationManager()
-                self.locationManager?.delegate = self
-                self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-                self.locationManager?.startUpdatingLocation()
-                
-                // Solo interesan datos recientes
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                    self.zapLocationManager()
-                }
-            }
-        } else {
-            print("Location services are not enabled")
-        }
-        
-    }
+    
 }
 
 //MARK:- CLLocationManagerDelegate
 extension Annotation: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(".......didUpdateLocations 1")
         // Lo paramos
         zapLocationManager()
+        print(".......didUpdateLocations 1")
         
-        if !hasLocation {
+        if (!self.hasLocation) {
+            print(".......didUpdateLocations 1")
             // Agarramos la ultima localizacion
-            let lastLocation = locations.last
+            let loc = locations.last
             
             // Creamos la Location
-            var location: Location? = nil
-            if (lastLocation != nil) {
-                location = findLocationWith(cllocation: lastLocation!)
-                if location == nil {
-                    location = Location(location: lastLocation!, context: managedObjectContext!)
-                } else {
-                    print("..........Reutilizamos la location")
-                }
-            } else {
-                print("..........lastLocation es nil")
-            }
-            self.location = location
+            let location = Location(location: loc!, context: managedObjectContext!)
+            location.addToAnnotations(self)
+            managedObjectContext?.processPendingChanges()
         } else {
-            print("..............Aqui nunca deberia entrar!!!")
+            print("Aqui nunca deberia entrar!!!")
         }
-    }
-    
-    func findLocationWith(cllocation: CLLocation) -> Location? {
-        let req = NSFetchRequest<Location>(entityName: Location.entityName)
-        let latitudePredicate = NSPredicate(format: "abs(latitude) - abs(%lf) < 0.001", cllocation.coordinate.latitude)
-        let longitudePredicate = NSPredicate(format: "abs(longitude) - abs(%lf) < 0.001", cllocation.coordinate.longitude)
-        req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
-        let results = try! self.managedObjectContext!.fetch(req)
-        
-        if results.count > 0 {
-            return results.last
-        }
-        return nil
     }
 }
+
+////MARK:- CLLocationManagerDelegate
+//extension Annotation: CLLocationManagerDelegate {
+//    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        // Lo paramos
+//        zapLocationManager()
+//
+//        if !hasLocation {
+//            // Agarramos la ultima localizacion
+//            let lastLocation = locations.last
+//
+//            // Creamos la Location
+//            var location: Location? = nil
+//            if (lastLocation != nil) {
+//                location = findLocationWith(cllocation: lastLocation!)
+//                if location == nil {
+//                    location = Location(location: lastLocation!, context: managedObjectContext!)
+//                } else {
+//                    print("..........Reutilizamos la location")
+//                }
+//            } else {
+//                print("..........lastLocation es nil")
+//            }
+//            self.location = location
+//        } else {
+//            print("..............Aqui nunca deberia entrar!!!")
+//        }
+//    }
+//
+//    func findLocationWith(cllocation: CLLocation) -> Location? {
+//        let req = NSFetchRequest<Location>(entityName: Location.entityName)
+//        let latitudePredicate = NSPredicate(format: "abs(latitude) - abs(%lf) < 0.001", cllocation.coordinate.latitude)
+//        let longitudePredicate = NSPredicate(format: "abs(longitude) - abs(%lf) < 0.001", cllocation.coordinate.longitude)
+//        req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
+//        let results = try! self.managedObjectContext!.fetch(req)
+//
+//        if results.count > 0 {
+//            return results.last
+//        }
+//        return nil
+//    }
+//}
