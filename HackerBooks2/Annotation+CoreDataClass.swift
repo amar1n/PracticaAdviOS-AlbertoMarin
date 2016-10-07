@@ -103,56 +103,38 @@ extension Annotation: CLLocationManagerDelegate {
         if (!self.hasLocation) {
             print(".......didUpdateLocations 1")
             // Agarramos la ultima localizacion
-            let loc = locations.last
+            let lastLocation = locations.last
             
             // Creamos la Location
-            let location = Location(location: loc!, context: managedObjectContext!)
-            location.addToAnnotations(self)
-            managedObjectContext?.processPendingChanges()
+            var location: Location? = nil
+            if (lastLocation != nil) {
+                location = findLocationWith(cllocation: lastLocation!)
+                if location == nil {
+                    location = Location(location: lastLocation!, context: managedObjectContext!)
+                } else {
+                    print("..........Reutilizamos la location")
+                }
+            } else {
+                print("..........lastLocation es nil")
+            }
+            self.location = location
+
         } else {
             print("Aqui nunca deberia entrar!!!")
         }
     }
+    
+    func findLocationWith(cllocation: CLLocation) -> Location? {
+        let req = NSFetchRequest<Location>(entityName: Location.entityName)
+        let latitudePredicate = NSPredicate(format: "abs(latitude) - abs(%lf) < 0.001", cllocation.coordinate.latitude)
+        let longitudePredicate = NSPredicate(format: "abs(longitude) - abs(%lf) < 0.001", cllocation.coordinate.longitude)
+        req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
+        let results = try! self.managedObjectContext!.fetch(req)
+        
+        if results.count > 0 {
+            return results.last
+        }
+        return nil
+    }
+    
 }
-
-////MARK:- CLLocationManagerDelegate
-//extension Annotation: CLLocationManagerDelegate {
-//    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        // Lo paramos
-//        zapLocationManager()
-//
-//        if !hasLocation {
-//            // Agarramos la ultima localizacion
-//            let lastLocation = locations.last
-//
-//            // Creamos la Location
-//            var location: Location? = nil
-//            if (lastLocation != nil) {
-//                location = findLocationWith(cllocation: lastLocation!)
-//                if location == nil {
-//                    location = Location(location: lastLocation!, context: managedObjectContext!)
-//                } else {
-//                    print("..........Reutilizamos la location")
-//                }
-//            } else {
-//                print("..........lastLocation es nil")
-//            }
-//            self.location = location
-//        } else {
-//            print("..............Aqui nunca deberia entrar!!!")
-//        }
-//    }
-//
-//    func findLocationWith(cllocation: CLLocation) -> Location? {
-//        let req = NSFetchRequest<Location>(entityName: Location.entityName)
-//        let latitudePredicate = NSPredicate(format: "abs(latitude) - abs(%lf) < 0.001", cllocation.coordinate.latitude)
-//        let longitudePredicate = NSPredicate(format: "abs(longitude) - abs(%lf) < 0.001", cllocation.coordinate.longitude)
-//        req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [latitudePredicate, longitudePredicate])
-//        let results = try! self.managedObjectContext!.fetch(req)
-//
-//        if results.count > 0 {
-//            return results.last
-//        }
-//        return nil
-//    }
-//}
